@@ -1,0 +1,60 @@
+@startuml
+actor "学生" as Student
+actor "管理员" as Admin
+actor "系统" as System
+actor "数据库" as Database
+
+Student -> System : 登录请求
+activate System
+System --> Student : 显示登录页面
+
+Student -> System : 提交登录信息
+activate System
+System -> Database : 验证用户信息
+activate Database
+Database --> System : 返回验证结果
+System --> Student : 显示主页面
+
+Student -> System : 注册请求
+System --> Student : 显示注册页面
+
+Student -> System : 提交注册信息
+activate System
+System -> Database : 插入用户数据
+activate Database
+Database --> System : 返回插入结果
+System --> Student : 显示登录页面
+
+Admin -> System : 管理学生信息
+activate System
+System --> Admin : 显示学生信息列表
+
+Admin -> System : 添加学生信息
+activate System
+System --> Database : 插入学生记录
+activate Database
+Database --> System : 返回插入结果
+System --> Admin : 更新学生信息列表
+
+Admin -> System : 修改学生信息
+activate System
+System -> Database : 更新学生记录
+activate Database
+Database --> System : 返回更新结果
+System --> Admin : 更新学生信息列表
+
+Admin -> System : 删除学生信息
+activate System
+System -> Database : 删除学生记录
+activate Database
+Database --> System : 返回删除结果
+System --> Admin : 更新学生信息列表
+
+Student -> System : 查询详细信息
+activate System
+System -> Database : 获取学生详细信息
+activate Database
+Database --> System : 返回详细信息
+System --> Student : 显示详细信息
+
+@enduml

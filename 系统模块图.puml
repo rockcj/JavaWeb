@@ -1,0 +1,76 @@
+@startuml
+skinparam rectangle {
+  borderColor black
+  backgroundColor #White
+}
+
+package "用户模块" {
+  [登录] as Login
+  [注册] as Register
+}
+
+package "管理员模块" {
+  [学生信息管理] as ManageStudents
+  [项目信息管理] as ManageItems
+  [职位信息管理] as ManageJobs
+}
+
+package "数据库模块" {
+  [学生数据] as StudentTable
+  [项目数据] as ItemTable
+  [职位数据] as JobTable
+}
+
+package "业务逻辑模块" {
+  [学生服务] as StudentService
+  [项目服务] as ItemService
+  [职位服务] as JobService
+}
+
+package "数据访问模块" {
+  [学生DAO] as StudentDAO
+  [项目DAO] as ItemDAO
+  [职位DAO] as JobDAO
+}
+
+package "前端模块" {
+  [登录页面] as LoginPage
+  [注册页面] as RegisterPage
+  [主页面] as MainPage
+  [学生信息页面] as StudentPage
+  [项目信息页面] as ItemPage
+  [职位信息页面] as JobPage
+}
+
+Login --> RegisterPage : "跳转"
+Login --> MainPage : "跳转"
+Register --> RegisterPage : "跳转"
+Register --> MainPage : "跳转"
+
+ManageStudents --> StudentPage : "跳转"
+ManageItems --> ItemPage : "跳转"
+ManageJobs --> JobPage : "跳转"
+
+StudentTable --> StudentDAO : "数据访问"
+ItemTable --> ItemDAO : "数据访问"
+JobTable --> JobDAO : "数据访问"
+
+StudentService --> StudentDAO : "使用"
+ItemService --> ItemDAO : "使用"
+JobService --> JobDAO : "使用"
+
+StudentService --> StudentTable : "操作"
+ItemService --> ItemTable : "操作"
+JobService --> JobTable : "操作"
+
+LoginPage --> Login : "触发"
+RegisterPage --> Register : "触发"
+MainPage --> ManageStudents : "触发"
+MainPage --> ManageItems : "触发"
+MainPage --> ManageJobs : "触发"
+
+StudentPage --> ManageStudents : "显示"
+ItemPage --> ManageItems : "显示"
+JobPage --> ManageJobs : "显示"
+
+@enduml

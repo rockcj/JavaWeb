@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    text-align: center;
+    padding: 50px;
+}
+h1 {
+    color: #333;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+a:hover {
+    background-color: #0056b3;
+}
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: #fff;
+}
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+th {
+    background-color: #007bff;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #e2f0ff;
+}
+.add-item-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 48px;
+    background-color: #73cdcc;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 36px;
+}
+.form-group {
+    margin: 20px 0;
+}
+.form-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+.form-group input {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.submit-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #218838;
+}
+.add-row-btn {
+    background-color: #ffc107;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+.add-row-btn:hover {
+    background-color: #e0a800;
+}
+.sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    position: fixed; /* 固定定位 */
+    top: 32%; /* 距离顶部的位置 */
+    left: 0; /* 靠左显示 */
+    height: 100%; /* 占满高度 */
+    overflow-y: auto; /* 如果内容过多，允许滚动 */
+}
+
+.sidebar a {
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+}
+.main-content {
+    margin-left: 200px; /* 略大于侧边栏宽度 */
+}

@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- Design by foolishdeveloper.com -->
+    <title>地球人登录页面</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+        *,
+        *:before,
+        *:after{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-color: #080710;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        form{
+            height: 460px;
+            width: 350px;
+            background-color: rgba(255,255,255,0.13);
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            right: 10%; /* 右移 */
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 40px rgba(8,7,16,0.6);
+            padding: 50px 35px;
+        }
+        form *{
+            font-family: 'Poppins',sans-serif;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            outline: none;
+            border: none;
+        }
+        form h3{
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 35px;
+            text-align: center;
+        }
+
+        label{
+            display: block;
+            margin-top: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        input{
+            display: block;
+            height: 35px;
+            width: 100%;
+            background-color: rgba(255,255,255,0.07);
+            border-radius: 3px;
+            padding: 0 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        ::placeholder{
+            color: #e5e5e5;
+        }
+        button{
+            margin-top: 30px;
+            width: 49%;
+            background-color: #ffffff;
+            color: #080710;
+            padding: 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .social{
+            margin-top: 25px;
+            display: flex;
+        }
+        .social div{
+            background: red;
+            width: 150px;
+            border-radius: 3px;
+            padding: 5px 10px 10px 5px;
+            background-color: rgba(255,255,255,0.27);
+            color: #eaf0fb;
+            text-align: center;
+        }
+        .social div:hover{
+            background-color: rgba(255,255,255,0.47);
+        }
+        .social .fb{
+            margin-left: 25px;
+        }
+        .social i{
+            margin-right: 4px;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: -10%; /* 左移 */
+            width: 120vw; /* 扩大宽度以适应左移 */
+            height: 100vh;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+<form action="/login" method="post">
+    <h3>Login 太阳系</h3>
+
+    <label for="username">用户名</label>
+    <input type="text" placeholder="邮箱或手机" id="username" name="username">
+
+    <label for="password">密码</label>
+    <input type="password" placeholder="密码" id="password" name="password">
+
+    <button type="submit">登录</button>
+    <button type="button" onclick="window.location.href='register.jsp'">注册</button>
+
+    <div class="social">
+        <div class="go"><i class="fab fa-google"></i> Google</div>
+        <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
+    </div>
+</form>
+<canvas id="solarSystemCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('solarSystemCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth * 1.2; // 扩大宽度以适应左移
+    canvas.height = window.innerHeight;
+
+    const images = {
+        sun: new Image(),
+        mercury: new Image(),
+        venus: new Image(),
+        earth: new Image(),
+        moon: new Image(),
+        mars: new Image(),
+        jupiter: new Image(),
+        saturn: new Image(),
+        uranus: new Image(),
+        neptune: new Image()
+    };
+
+    images.sun.src = 'https://img.alicdn.com/imgextra/i1/O1CN01oVLbLx22VlN34KDQs_!!6000000007126-2-tps-800-800.png';
+    images.mercury.src = 'https://img.alicdn.com/imgextra/i2/O1CN01UjgqIB1SrRxQfrflh_!!6000000002300-2-tps-800-800.png';
+    images.venus.src = 'https://img.alicdn.com/imgextra/i3/O1CN01JGEgLU1dfxnVvp91R_!!6000000003764-2-tps-800-800.png';
+    images.earth.src = 'https://img.alicdn.com/imgextra/i4/O1CN01R6wlzD1IhhMlBcGLg_!!6000000000925-2-tps-800-800.png';
+    images.moon.src = 'https://img.alicdn.com/imgextra/i4/O1CN01Ad5SeB20tv1nfRoA2_!!6000000006908-2-tps-800-800.png';
+    images.mars.src = 'https://img.alicdn.com/imgextra/i1/O1CN01OlZAk81OVEHJ0pazq_!!6000000001710-2-tps-800-800.png';
+    images.jupiter.src = 'https://img.alicdn.com/imgextra/i2/O1CN01MA3Mk51bAhWxWxHim_!!6000000003425-2-tps-800-800.png';
+    images.saturn.src = 'https://img.alicdn.com/imgextra/i2/O1CN01NG2FjS1XDDEofNNhg_!!6000000002889-2-tps-800-800.png';
+    images.uranus.src = 'https://img.alicdn.com/imgextra/i1/O1CN01wnxTX51xIPkTHqPBr_!!6000000006420-2-tps-800-800.png';
+    images.neptune.src = 'https://img.alicdn.com/imgextra/i1/O1CN01LTf0rT25zwJWsIDkD_!!6000000007598-2-tps-800-800.png';
+
+    const stars = [];
+    for (let i = 0; i < 200; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 0.5 + 0.5,
+            opacity: Math.random() * 0.5 + 0.5
+        });
+    }
+
+    let angle = 0;
+
+    function drawBackground() {
+        const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, canvas.width);
+        gradient.addColorStop(0, '#1C2837');
+        gradient.addColorStop(1, '#050608');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.globalAlpha = 0.5;
+        stars.forEach(star => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+            ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+    }
+
+    function drawOrbit(radius) {
+        ctx.beginPath();
+        ctx.setLineDash([5, 5]);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 1;
+        ctx.arc(canvas.width / 2, canvas.height / 2, radius * 1.5, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+
+    function drawPlanet(image, radius, scale, speed) {
+        const x = canvas.width / 2 + radius * 1.5 * Math.cos(angle * speed);
+        const y = canvas.height / 2 + radius * 1.5 * Math.sin(angle * speed);
+        ctx.drawImage(image, x - image.width * scale / 2, y - image.height * scale / 2, image.width * scale, image.height * scale);
+    }
+
+    function drawMoon(x, y) {
+        ctx.drawImage(images.moon, x - 3, y - 3, 6, 6);
+    }
+
+    function drawSolarSystem() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBackground();
+
+        drawOrbit(60);
+        drawOrbit(90);
+        drawOrbit(120);
+        drawOrbit(150);
+        drawOrbit(180);
+        drawOrbit(210);
+        drawOrbit(240);
+        drawOrbit(270);
+
+        drawPlanet(images.sun, 0, 0.1125, 0); // Sun
+
+        drawPlanet(images.mercury, 60, 0.009375, 4); // Mercury
+        drawPlanet(images.venus, 90, 0.015, 3); // Venus
+        drawPlanet(images.earth, 120, 0.01875, 2); // Earth
+        drawPlanet(images.mars, 150, 0.013125, 1.5); // Mars
+        drawPlanet(images.jupiter, 180, 0.0225, 1); // Jupiter
+        drawPlanet(images.saturn, 210, 0.045, 0.8); // Saturn
+        drawPlanet(images.uranus, 240, 0.016875, 0.5); // Uranus
+        drawPlanet(images.neptune, 270, 0.015, 0.4); // Neptune
+
+        const earthX = canvas.width / 2 + 120 * 1.5 * Math.cos(angle * 2);
+        const earthY = canvas.height / 2 + 120 * 1.5 * Math.sin(angle * 2);
+        drawMoon(earthX + 15 * Math.cos(angle * 3), earthY + 15 * Math.sin(angle * 3));
+
+        angle += 0.01;
+        requestAnimationFrame(drawSolarSystem);
+    }
+
+    Promise.all(Object.values(images).map(img => new Promise(resolve => img.onload = resolve)))
+        .then(() => drawSolarSystem());
+</script>
+</body>
+</html>
+
+
+

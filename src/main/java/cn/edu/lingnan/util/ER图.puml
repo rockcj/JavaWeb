@@ -1,0 +1,47 @@
+@startuml
+' 设置全局样式
+skinparam linetype ortho
+skinparam packageStyle rectangle
+hide circle
+hide empty members
+
+' 定义实体
+entity Student {
+  * sid : String <<PK>>
+  --
+  sname : String
+  spassword : String
+  sright : int
+  stflag : int
+}
+
+entity Item {
+  * iid : String <<PK>>
+  --
+  iname : String
+  iflag : int
+}
+
+entity Job {
+  * sid : String <<FK>>
+  * iid : String <<FK>>
+  --
+  job : String
+  scflag : int
+}
+
+' 定义关系
+Student ||--o{ Job
+Item ||--o{ Job
+
+' 定义DTO视图（非数据库实体）
+class JobDto {
+  sid : String
+  iid : String
+  sname : String
+  iname : String
+  job : String
+}
+
+note top of JobDto : 数据传输对象\n(非实体表)
+@enduml
