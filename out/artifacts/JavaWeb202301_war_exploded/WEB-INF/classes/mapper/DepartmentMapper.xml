@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.lingnan.mapper.DepartmentMapper">
+
+    <!-- Department结果映射 -->
+    <resultMap id="DepartmentResultMap" type="cn.edu.lingnan.pojo.Department">
+        <id property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="deptCode" column="dept_code"/>
+        <result property="deptHead" column="dept_head"/>
+        <result property="deptPhone" column="dept_phone"/>
+        <result property="deptEmail" column="dept_email"/>
+        <result property="deptDesc" column="dept_desc"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="dflag" column="dflag"/>
+    </resultMap>
+
+    <!-- 更新院系信息 -->
+    <update id="updateDepartment" parameterType="cn.edu.lingnan.pojo.Department">
+        UPDATE department
+        SET
+            dept_name = #{department.deptName},
+            dept_code = #{department.deptCode},
+            dept_head = #{department.deptHead},
+            dept_phone = #{department.deptPhone},
+            dept_email = #{department.deptEmail},
+            dept_desc = #{department.deptDesc},
+            dflag = #{department.dflag}
+        WHERE dept_id = #{department.deptId}
+    </update>
+
+</mapper>
