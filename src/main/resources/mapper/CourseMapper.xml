@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.lingnan.mapper.CourseMapper">
+
+    <!-- Course结果映射 -->
+    <resultMap id="CourseResultMap" type="cn.edu.lingnan.pojo.Course">
+        <id property="courseId" column="course_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="courseCode" column="course_code"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="credit" column="credit"/>
+        <result property="courseHours" column="course_hours"/>
+        <result property="courseType" column="course_type"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="semester" column="semester"/>
+        <result property="courseDesc" column="course_desc"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="cflag" column="cflag"/>
+    </resultMap>
+
+    <!-- 复杂结果映射：课程关联院系信息 -->
+    <resultMap id="CourseWithDeptResultMap" type="cn.edu.lingnan.pojo.Course">
+        <id property="courseId" column="course_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="courseCode" column="course_code"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="credit" column="credit"/>
+        <result property="courseHours" column="course_hours"/>
+        <result property="courseType" column="course_type"/>
+        <result property="teacherName" column="teacher_name"/>
+        <result property="semester" column="semester"/>
+        <result property="courseDesc" column="course_desc"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="cflag" column="cflag"/>
+        <!-- 关联院系信息（如果需要） -->
+        <!-- <association property="deptName" column="dept_id" javaType="string"
+                     select="cn.edu.lingnan.mapper.DepartmentMapper.queryDepartmentById"/> -->
+    </resultMap>
+
+    <!-- 查询所有课程记录 -->
+    <select id="queryAllCourse" resultMap="CourseResultMap">
+        SELECT
+            course_id, course_name, course_code, dept_id, credit, course_hours,
+            course_type, teacher_name, semester, course_desc, create_time, update_time, cflag
+        FROM course
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 更新课程信息 -->
+    <update id="updateCourse" parameterType="cn.edu.lingnan.pojo.Course">
+        UPDATE course
+        SET
+            course_name = #{course.courseName},
+            course_code = #{course.courseCode},
+            dept_id = #{course.deptId},
+            credit = #{course.credit},
+            course_hours = #{course.courseHours},
+            course_type = #{course.courseType},
+            teacher_name = #{course.teacherName},
+            semester = #{course.semester},
+            course_desc = #{course.courseDesc},
+            cflag = #{course.cflag}
+        WHERE course_id = #{course.courseId}
+    </update>
+
+</mapper>

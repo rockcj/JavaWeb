@@ -19,23 +19,31 @@ public class DBUtil {
     //静态代码块，在类加载时执行，只执行一次
     static
     {
-        //若要使用相对路径则要先获取当前程序所运行的路径:
-        String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        /* [当前线程 的 上下文类加载器 的 资源 的 当前路径] */
-        xmlPath = basePath + xmlPath;//构成绝对路径  //还原
-
-        //System.out.println("[Debug 04] " + xmlPath);
-        Map<String,String> map = XMLParser.parser(xmlPath);
-        driver = map.get("driver");
-        url = map.get("url");
-        user = map.get("user");
-        password = map.get("password");
-        //System.out.println("[Debug 040] " + driver + " " + url + " " + user + " " + password);
         try {
-            Class.forName(driver);
-        } catch (ClassNotFoundException e) {
-            System.out.println("[Debug 042] 驱动加载失败: " + e.getMessage());
-            e.printStackTrace();
+            //使用getResourceAsStream避免路径编码问题（如中文路径的URL编码）
+            java.io.InputStream inputStream = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream(xmlPath);
+            
+            if (inputStream == null) {
+                throw new RuntimeException("无法找到配置文件: " + xmlPath);
+            }
+            
+            //System.out.println("[Debug 04] 从类路径加载配置文件: " + xmlPath);
+            Map<String,String> map = XMLParser.parser(inputStream);
+            driver = map.get("driver");
+            url = map.get("url");
+            user = map.get("user");
+            password = map.get("password");
+            //System.out.println("[Debug 040] " + driver + " " + url + " " + user + " " + password);
+            try {
+                Class.forName(driver);
+            } catch (ClassNotFoundException e) {
+                System.out.println("[Debug 042] 驱动加载失败: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("初始化数据库配置失败: " + e.getMessage(), e);
         }
     }
 

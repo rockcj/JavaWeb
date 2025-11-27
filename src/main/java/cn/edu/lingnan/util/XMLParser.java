@@ -7,7 +7,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.Map;
 
 
@@ -33,6 +33,39 @@ public class XMLParser{
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        return map;
+    }
+
+    //从InputStream解析XML，避免路径编码问题
+    public static Map<String,String> parser(InputStream inputStream)
+    {
+        Map<String,String> map = null;
+        try {
+            //1.实例化一个SAXParser对象
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            //2.通过factory获得SAXParser对象，即SAX解析器
+            SAXParser parser = factory.newSAXParser();
+            //3.saxParser对象调用parse方法进行解析
+            XMLHandler handler = new XMLHandler();//创建事件处理器
+            parser.parse(inputStream,handler);
+            map = handler.getMap();
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException("无法读取XML配置文件", e);
+        } finally {
+            //关闭输入流
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    //忽略关闭异常
+                }
+            }
         }
 
         return map;
