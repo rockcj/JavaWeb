@@ -3,20 +3,20 @@ function allcheck(checkbox) {
     //alert("È«Ñ¡");
     let checks = document.getElementsByName("check");
     for (let i = 0; i < checks.length; i++) {
-        checks[i].checked = checkbox.checked; //Ê¹±íµ¥µÄ¹´Ñ¡¿òÓë±íÍ·µÄÈ«Ñ¡¿ò±£³ÖÒ»ÖÂ
+        checks[i].checked = checkbox.checked; //Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½È«Ñ¡ï¿½ò±£³ï¿½Ò»ï¿½ï¿½
     }
 }
 
 function delcheck(path, id, id2) {
-    alert("ÅúÁ¿É¾³ýÊý¾Ý");
-    //ÏÈ¼ÇÂ¼ÏÂÀ´£¬ÅúÁ¿·¢¸øºó¶Ë£¬½øÐÐÉ¾³ý
+    alert("ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+    //ï¿½È¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½
     var ids = new Array();
     var ids2 = new Array();
     var flag = false;
     let checks = document.getElementsByName("check");
     let count = 0;
     for (let i = 0; i < checks.length; i++) {
-        if (checks[i].checked) //Èç¹ûchecks[i]±»Ñ¡ÖÐ
+        if (checks[i].checked) //ï¿½ï¿½ï¿½checks[i]ï¿½ï¿½Ñ¡ï¿½ï¿½
         {
             let val = checks[i].value.split(",");
             ids.push(val[0]);  // sid
@@ -26,15 +26,15 @@ function delcheck(path, id, id2) {
         }
     }
     if (flag) {
-        if (confirm("ÄãÈ·¶¨É¾³ýÂð£¿")) {
+        if (confirm("ï¿½ï¿½È·ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½")) {
             location.href = path + "?flag=all&" + id + "="
                 + encodeURIComponent(ids.join(",")) + "&" + id2 + "="
                 + encodeURIComponent(ids2.join(","));
-            alert("É¾³ýÁË" + count + "ÌõÊý¾Ý");
+            alert("É¾ï¿½ï¿½ï¿½ï¿½" + count + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             alert(ids);
         }
     } else {
-        alert("Ã»ÓÐÑ¡ÖÐÊý¾Ý");
+        alert("Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     }
 }
 function OKcheck() {
@@ -43,7 +43,7 @@ function OKcheck() {
     let checks = document.getElementsByName("check");
     let count = 0;
     for (let i = 0; i < checks.length; i++) {
-        if (checks[i].checked) //Èç¹ûchecks[i]±»Ñ¡ÖÐ
+        if (checks[i].checked) //ï¿½ï¿½ï¿½checks[i]ï¿½ï¿½Ñ¡ï¿½ï¿½
         {
             let val = checks[i].value;
             ids.push(val);  // sid
@@ -52,12 +52,12 @@ function OKcheck() {
         }
     }
     if (flag) {
-            location.href = "/check?count=all&sid="
+            location.href = "../student/check?count=all&sid="
                 + encodeURIComponent(ids.join(","));
-            alert("Í¨¹ý" + count + "ÌõÊý¾Ý");
+            alert("Í¨ï¿½ï¿½" + count + "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             alert(ids);
     } else {
-        alert("Ã»ÓÐÑ¡ÖÐÊý¾Ý");
+        alert("Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     }
 }
 function checkForm() {
@@ -67,20 +67,20 @@ function checkForm() {
 
     var reg = /^[0-9][0-9][0-9]$/;
     if (userId == "") {
-        alert("ÓÃ»§Ãû²»ÄÜÎª¿Õ");
+        alert("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
         return false;
     } else if (!userId.match(reg)) {
-        alert("ÓÃ»§Ãû¸ñÊ½²»¶Ô");
+        alert("ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½");
         return false;
     }
 
     if (password == "") {
-        alert("ÃÜÂë²»ÄÜÎª¿Õ");
+        alert("ï¿½ï¿½ï¿½ë²»ï¿½ï¿½Îªï¿½ï¿½");
         return false;
     }
 
     if (password != OKPassword) {
-        alert("Á½´ÎÊäÈëµÄÃÜÂë²»Ò»ÖÂ");
+        alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»Ò»ï¿½ï¿½");
         return false;
     }
     return true;
@@ -118,83 +118,83 @@ function AJAX(InsertUrl,path,Object)
 {
     $.ajax({
         type: "POST",
-        url: InsertUrl, // ºó¶Ë½Ó¿ÚµØÖ·
-        data: JSON.stringify(Object), // ½« JavaScript ¶ÔÏóÊý×é×ª»»Îª JSON ×Ö·û´®
-        contentType: "application/json", // ¸æÖª·þÎñÆ÷ÇëÇóÌåÊÇ JSON ¸ñÊ½
+        url: InsertUrl, // ï¿½ï¿½Ë½Ó¿Úµï¿½Ö·
+        data: JSON.stringify(Object), // ï¿½ï¿½ JavaScript ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îª JSON ï¿½Ö·ï¿½ï¿½ï¿½
+        contentType: "application/json", // ï¿½ï¿½Öªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½Ê½
 
         success: function (data) {
-            console.log("ÏìÓ¦Êý¾Ý:", data);
-            console.log("666"); // ÄãµÄµ÷ÊÔÐÅÏ¢
+            console.log("ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½:", data);
+            console.log("666"); // ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 
-            if (data.status) { // È·±£ data ¶ÔÏó´æÔÚÇÒÓÐ status ÊôÐÔ
-                alert("Ìá½»³É¹¦£¡");
-                location.href = path; // Ìá½»³É¹¦Ìø×ªÖÁ/queryItemAllÒ³Ãæ
+            if (data.status) { // È·ï¿½ï¿½ data ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ status ï¿½ï¿½ï¿½ï¿½
+                alert("ï¿½á½»ï¿½É¹ï¿½ï¿½ï¿½");
+                location.href = path; // ï¿½á½»ï¿½É¹ï¿½ï¿½ï¿½×ªï¿½ï¿½/queryItemAllÒ³ï¿½ï¿½
             } else {
-                // ´¦Àíºó¶Ë·µ»Ø status Îª false »òÆäËû·ÇÔ¤ÆÚ³É¹¦×´Ì¬
-                let message = "Ìá½»²Ù×÷Î´³É¹¦";
-                if (data && data.message) { // Èç¹ûºó¶Ë·µ»ØÁË¾ßÌåµÄ´íÎóÐÅÏ¢
-                    message += "£º" + data.message;
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ status Îª false ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½Ú³É¹ï¿½×´Ì¬
+                let message = "ï¿½á½»ï¿½ï¿½ï¿½ï¿½Î´ï¿½É¹ï¿½";
+                if (data && data.message) { // ï¿½ï¿½ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+                    message += "ï¿½ï¿½" + data.message;
                 }
                 alert(message);
-                console.log("ºó¶ËÏìÓ¦Ö¸Ê¾²Ù×÷Î´³É¹¦:", data);
+                console.log("ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½Î´ï¿½É¹ï¿½:", data);
             }
         },
         error: function (xhr, status, error) {
-            //hideLoading(); // <--- È·±£ hideLoading º¯ÊýÒÑ¶¨ÒåÇÒ¿ÉÓÃ
-            alert("Ìá½»Ê§°Ü£¬Çë¼ì²éÍøÂç»òÁªÏµ¹ÜÀíÔ±£¡");
-            console.error("AJAXÇëÇó´íÎó×´Ì¬: ", status);
-            console.error("Å×³öµÄ´íÎóÏêÇé: ", error);
-            console.error("·þÎñÆ÷ÏìÓ¦Ìå (XHR):", xhr.responseText); // Õâ¶ÔÓÚµ÷ÊÔºó¶Ë´íÎó·Ç³£ÓÐÓÃ
+            //hideLoading(); // <--- È·ï¿½ï¿½ hideLoading ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¶ï¿½ï¿½ï¿½ï¿½Ò¿ï¿½ï¿½ï¿½
+            alert("ï¿½á½»Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½");
+            console.error("AJAXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬: ", status);
+            console.error("ï¿½×³ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ", error);
+            console.error("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ (XHR):", xhr.responseText); // ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½Ôºï¿½Ë´ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½ï¿½ï¿½
         }
     });
 }
 
-async function insertItem(event) { // <--- 1. ½ÓÊÜ event ²ÎÊý
-    if (event) { // ¼ì²é event ÊÇ·ñ´«Èë£¬ÒÔ·Àº¯Êý±»ÆäËû·½Ê½µ÷ÓÃ
-        event.preventDefault(); // <--- 2. ×èÖ¹±íµ¥µÄÄ¬ÈÏÌá½»ÐÐÎª
+async function insertItem(event) { // <--- 1. ï¿½ï¿½ï¿½ï¿½ event ï¿½ï¿½ï¿½ï¿½
+    if (event) { // ï¿½ï¿½ï¿½ event ï¿½Ç·ï¿½ï¿½ë£¬ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½
+        event.preventDefault(); // <--- 2. ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½á½»ï¿½ï¿½Îª
     }
 
-    //¶ÁÈ¡±í¸ñ£¬Ïàµ±ÓÚ2Î¬Êý×é
+    //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½àµ±ï¿½ï¿½2Î¬ï¿½ï¿½ï¿½ï¿½
     let rows = document.querySelectorAll("#TableBody tr");
     let items = [];
 
     for (let row of rows) {
-        //»ñÈ¡Ã¿Ò»ÐÐÊäÈë¿òµÄÖµ£¬1Î¬Êý×é
+        //ï¿½ï¿½È¡Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½1Î¬ï¿½ï¿½ï¿½ï¿½
         let inputs = row.querySelectorAll("input");
-        //  ´´½¨Ò»¸ö¶ÔÏó£¬½«ÊäÈë¿òµÄÖµ±£´æÆðÀ´
+        //  ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         let item = {
             iid: inputs[0].value.trim(),
             iname: inputs[1].value.trim(),
             iflag: inputs[2].value.trim()
         };
-        // È·±£ËùÓÐ×Ö¶Î¶¼ÓÐÖµ²ÅÌí¼Óµ½Êý×éÖÐ
+        // È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Î¶ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (item.iid && item.iname && item.iflag) {
             items.push(item);
-        } else if (item.iid || item.iname || item.iflag) { // Èç¹ûÐÐÄÚÓÐÈÎºÎÒ»¸öÊäÈë¿òÌîÐ´ÁË£¬µ«²»ÊÇÈ«²¿£¬¿ÉÒÔ¸ø¸öÌáÊ¾»òºöÂÔ
-            console.warn("±í¸ñÖÐÓÐÒ»ÐÐÊý¾Ý²»ÍêÕû£¬ÒÑºöÂÔ¸ÃÐÐ:", item);
-            alert("±í¸ñÖÐÓÐÒ»ÐÐÊý¾Ý²»ÍêÕû£¬ÒÑºöÂÔ¸ÃÐÐ¡£"+item.iid+" "+item.iname+" "+item.iflag);
+        } else if (item.iid || item.iname || item.iflag) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½
+            console.warn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñºï¿½ï¿½Ô¸ï¿½ï¿½ï¿½:", item);
+            alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñºï¿½ï¿½Ô¸ï¿½ï¿½Ð¡ï¿½"+item.iid+" "+item.iname+" "+item.iflag);
         }
     }
     if (items.length === 0) {
-        alert("Ã»ÓÐÓÐÐ§µÄÊý¾Ý¿ÉÒÔÌá½»£¡ÇëÖÁÉÙÍêÕûÌîÐ´Ò»ÐÐ¡£");
+        alert("Ã»ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´Ò»ï¿½Ð¡ï¿½");
         return;
     }
-    AJAX('/insertItem','/queryItemAll',items);
+    AJAX('../item/insert','../item/queryAll',items);
 }
 
-async function insertStu(event) { // <--- 1. ½ÓÊÜ event ²ÎÊý
-    if (event) { // ¼ì²é event ÊÇ·ñ´«Èë£¬ÒÔ·Àº¯Êý±»ÆäËû·½Ê½µ÷ÓÃ
-        event.preventDefault(); // <--- 2. ×èÖ¹±íµ¥µÄÄ¬ÈÏÌá½»ÐÐÎª
+async function insertStu(event) { // <--- 1. ï¿½ï¿½ï¿½ï¿½ event ï¿½ï¿½ï¿½ï¿½
+    if (event) { // ï¿½ï¿½ï¿½ event ï¿½Ç·ï¿½ï¿½ë£¬ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½
+        event.preventDefault(); // <--- 2. ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½á½»ï¿½ï¿½Îª
     }
 
-    //¶ÁÈ¡±í¸ñ£¬Ïàµ±ÓÚ2Î¬Êý×é
+    //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½àµ±ï¿½ï¿½2Î¬ï¿½ï¿½ï¿½ï¿½
     let rows = document.querySelectorAll("#TableBody tr");
     let students = [];
 
     for (let row of rows) {
-        //»ñÈ¡Ã¿Ò»ÐÐÊäÈë¿òµÄÖµ£¬1Î¬Êý×é
+        //ï¿½ï¿½È¡Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½1Î¬ï¿½ï¿½ï¿½ï¿½
         let inputs = row.querySelectorAll("input");
-        //  ´´½¨Ò»¸ö¶ÔÏó£¬½«ÊäÈë¿òµÄÖµ±£´æÆðÀ´
+        //  ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         let stu = {
             sid: inputs[0].value.trim(),
             sname: inputs[1].value.trim(),
@@ -202,51 +202,76 @@ async function insertStu(event) { // <--- 1. ½ÓÊÜ event ²ÎÊý
             sright: inputs[3].value.trim(),
             stflag: inputs[4].value.trim()
         };
-        // È·±£ËùÓÐ×Ö¶Î¶¼ÓÐÖµ²ÅÌí¼Óµ½Êý×éÖÐ
+        // È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Î¶ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (stu.sid && stu.sname && stu.spassword && stu.sright && stu.stflag) {
             students.push(stu);
-        } else if (stu.sid || stu.sname || stu.spassword || stu.sright || stu.stflag) { // Èç¹ûÐÐÄÚÓÐÈÎºÎÒ»¸öÊäÈë¿òÌîÐ´ÁË£¬µ«²»ÊÇÈ«²¿£¬¿ÉÒÔ¸ø¸öÌáÊ¾»òºöÂÔ
-            console.warn("±í¸ñÖÐÓÐÒ»ÐÐÊý¾Ý²»ÍêÕû£¬ÒÑºöÂÔ¸ÃÐÐ:", stu);
-            alert("±í¸ñÖÐÓÐÒ»ÐÐÊý¾Ý²»ÍêÕû£¬ÒÑºöÂÔ¸ÃÐÐ¡£"+stu.sid+" "+stu.sname+" "+stu.spassword+" "+stu.sright+" "+stu.stflag);
+        } else if (stu.sid || stu.sname || stu.spassword || stu.sright || stu.stflag) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½
+            console.warn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñºï¿½ï¿½Ô¸ï¿½ï¿½ï¿½:", stu);
+            alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñºï¿½ï¿½Ô¸ï¿½ï¿½Ð¡ï¿½"+stu.sid+" "+stu.sname+" "+stu.spassword+" "+stu.sright+" "+stu.stflag);
         }
     }
     if (students.length === 0) {
-        alert("Ã»ÓÐÓÐÐ§µÄÊý¾Ý¿ÉÒÔÌá½»£¡ÇëÖÁÉÙÍêÕûÌîÐ´Ò»ÐÐ¡£");
+        alert("Ã»ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´Ò»ï¿½Ð¡ï¿½");
         return;
     }
-    AJAX('/insertStudent','/queryStuAll',students);
+    AJAX('../student/insert','../student/queryAll',students);
 }
 
-async function insertJob(event) { // <--- 1. ½ÓÊÜ event ²ÎÊý
-    if (event) { // ¼ì²é event ÊÇ·ñ´«Èë£¬ÒÔ·Àº¯Êý±»ÆäËû·½Ê½µ÷ÓÃ
-        event.preventDefault(); // <--- 2. ×èÖ¹±íµ¥µÄÄ¬ÈÏÌá½»ÐÐÎª
+async function insertJob(event) { // <--- 1. ï¿½ï¿½ï¿½ï¿½ event ï¿½ï¿½ï¿½ï¿½
+    if (event) { // ï¿½ï¿½ï¿½ event ï¿½Ç·ï¿½ï¿½ë£¬ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½
+        event.preventDefault(); // <--- 2. ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½á½»ï¿½ï¿½Îª
     }
 
-    //¶ÁÈ¡±í¸ñ£¬Ïàµ±ÓÚ2Î¬Êý×é
+    //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½àµ±ï¿½ï¿½2Î¬ï¿½ï¿½ï¿½ï¿½
     let rows = document.querySelectorAll("#TableBody tr");
     let jobs = [];
 
     for (let row of rows) {
-        //»ñÈ¡Ã¿Ò»ÐÐÊäÈë¿òµÄÖµ£¬1Î¬Êý×é
+        //ï¿½ï¿½È¡Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½1Î¬ï¿½ï¿½ï¿½ï¿½
         let inputs = row.querySelectorAll("input");
-        //  ´´½¨Ò»¸ö¶ÔÏó£¬½«ÊäÈë¿òµÄÖµ±£´æÆðÀ´
+        //  ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         let job = {
             sid: inputs[0].value.trim(),
             iid: inputs[1].value.trim(),
             job: inputs[2].value.trim(),
             scflag: inputs[3].value.trim()
         };
-        // È·±£ËùÓÐ×Ö¶Î¶¼ÓÐÖµ²ÅÌí¼Óµ½Êý×éÖÐ
+        // È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Î¶ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (job.sid && job.iid && job.job  && job.scflag) {
             jobs.push(job);
-        } else if (job.sid || job.iid || job.job  || job.scflag) { // Èç¹ûÐÐÄÚÓÐÈÎºÎÒ»¸öÊäÈë¿òÌîÐ´ÁË£¬µ«²»ÊÇÈ«²¿£¬¿ÉÒÔ¸ø¸öÌáÊ¾»òºöÂÔ
-            console.warn("±í¸ñÖÐÓÐÒ»ÐÐÊý¾Ý²»ÍêÕû£¬ÒÑºöÂÔ¸ÃÐÐ:", job);
-            alert("±í¸ñÖÐÓÐÒ»ÐÐÊý¾Ý²»ÍêÕû£¬ÒÑºöÂÔ¸ÃÐÐ¡£"+job.sid+" "+job.iid+" "+job.job+" "+job.scflag);
+        } else if (job.sid || job.iid || job.job  || job.scflag) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½
+            console.warn("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñºï¿½ï¿½Ô¸ï¿½ï¿½ï¿½:", job);
+            alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñºï¿½ï¿½Ô¸ï¿½ï¿½Ð¡ï¿½"+job.sid+" "+job.iid+" "+job.job+" "+job.scflag);
         }
     }
     if (jobs.length === 0) {
-        alert("Ã»ÓÐÓÐÐ§µÄÊý¾Ý¿ÉÒÔÌá½»£¡ÇëÖÁÉÙÍêÕûÌîÐ´Ò»ÐÐ¡£");
+        alert("Ã»ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´Ò»ï¿½Ð¡ï¿½");
         return;
     }
-    AJAX('/insertJob','/queryJobAll',jobs);
+    AJAX('../job/insert','../job/queryAll',jobs);
+}
+
+// å•IDæ‰¹é‡åˆ é™¤å‡½æ•°ï¼ˆç”¨äºŽteacherã€itemç­‰åªæœ‰ä¸€ä¸ªä¸»é”®çš„è¡¨ï¼‰
+function delcheckSingle(path, id) {
+    alert("å¼€å§‹åˆ é™¤æ“ä½œ");
+    var ids = new Array();
+    var flag = false;
+    let checks = document.getElementsByName("check");
+    let count = 0;
+    for (let i = 0; i < checks.length; i++) {
+        if (checks[i].checked) {
+            let val = checks[i].value;
+            ids.push(val);
+            count++;
+            flag = true;
+        }
+    }
+    if (flag) {
+        if (confirm("ç¡®å®šè¦åˆ é™¤å—ï¼Ÿ")) {
+            location.href = path + "?flag=all&" + id + "=" + encodeURIComponent(ids.join(","));
+            alert("åˆ é™¤äº†" + count + "æ¡è®°å½•");
+        }
+    } else {
+        alert("æ²¡æœ‰é€‰ä¸­è®°å½•");
+    }
 }

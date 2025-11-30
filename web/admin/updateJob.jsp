@@ -12,12 +12,12 @@
 <h1>岭南师范学院学生管理系统———学生管理模块</h1>
 欢迎您：${user}&nbsp;先生/女士
 <br><br>
-<a href="/login">退出</a>
-<a href="/loginout">用户注销</a>
-<a href="/queryJobAll">查询职位信息</a>
+<a href="../login">退出</a>
+<a href="../loginout">用户注销</a>
+<a href="../job/queryAll">查询职位信息</a>
 <hr>
 
-<form  action="/updateJob">
+<form  action="../job/update">
     <table>
         <tr>
             <th>学生id</th>

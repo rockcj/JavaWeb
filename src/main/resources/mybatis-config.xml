@@ -4,6 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
+    <!-- 配置设置 -->
+    <settings>
+        <!-- 开启驼峰命名自动映射，从经典数据库列名A_COLUMN到经典Java属性名aColumn的类似映射 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
     <!-- 配置环境 -->
     <environments default="development">
         <environment id="development">
@@ -12,20 +18,18 @@
             <!-- 数据源类型：POOLED -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/javaweb_db?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/school?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="123456"/>
             </dataSource>
         </environment>
     </environments>
 
-    <!-- 注册映射文件 -->
+    <!-- 注意：Mapper XML文件通过Spring的applicationContext.xml中的mapperLocations配置扫描 -->
+    <!-- 但是使用注解的Mapper接口需要在这里注册 -->
     <mappers>
-        <mapper resource="mapper/JobMapper.xml"/>
-        <mapper resource="mapper/DepartmentMapper.xml"/>
-        <mapper resource="mapper/CourseMapper.xml"/>
-        <mapper resource="mapper/ScoreMapper.xml"/>
-        <!-- 其他Mapper文件如果需要XML映射，可以在这里添加 -->
+        <!-- 注册使用注解的Mapper接口 -->
+        <package name="cn.edu.lingnan.mapper"/>
     </mappers>
 
 </configuration>

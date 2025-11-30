@@ -24,7 +24,7 @@
     <!-- 配置数据源 -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/javaweb_db?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/school?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
         <property name="username" value="root"/>
         <property name="password" value="123456"/>
     </bean>
@@ -34,11 +34,23 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <!-- 配置MyBatis设置，开启驼峰命名自动映射 -->
+        <property name="configurationProperties">
+            <props>
+                <prop key="mapUnderscoreToCamelCase">true</prop>
+            </props>
+        </property>
     </bean>
 
     <!-- 配置SqlSessionTemplate -->
     <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 配置MapperScannerConfigurer，自动扫描并注册所有Mapper接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.edu.lingnan.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
     <!-- 配置事务管理器 -->
@@ -65,19 +77,17 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 
-    <!-- Department模块 -->
-    <bean id="departmentService" class="cn.edu.lingnan.service.imp.DepartmentServiceImp">
-        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
-    </bean>
+    <!-- Department模块 - 使用MyBatisUtil，不需要注入sqlSessionTemplate -->
+    <bean id="departmentService" class="cn.edu.lingnan.service.imp.DepartmentServiceImp"/>
 
-    <!-- Job模块 -->
-    <bean id="jobService" class="cn.edu.lingnan.service.imp.JobServiceImpMapper">
-        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
-    </bean>
+    <!-- Job模块 - 使用MyBatisUtil，不需要注入sqlSessionTemplate -->
+    <bean id="jobService" class="cn.edu.lingnan.service.imp.JobServiceImpMapper"/>
 
-    <!-- Item模块 -->
-    <bean id="itemService" class="cn.edu.lingnan.service.imp.ItemServiceImpMapper">
-        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
-    </bean>
+    <!-- Item模块 - 使用MyBatisUtil，不需要注入sqlSessionTemplate -->
+    <bean id="itemService" class="cn.edu.lingnan.service.imp.ItemServiceImpMapper"/>
+
+    <!-- Score模块使用注解配置，已在ScoreServiceImp中使用@Service注解 -->
+    <!-- Teacher模块使用注解配置 -->
+    <!-- TimeTable模块使用注解配置 -->
 
 </beans>

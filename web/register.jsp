@@ -147,7 +147,7 @@
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form action="/register" method="post" onsubmit="return checkForm()">
+<form action="register" method="post" onsubmit="return checkForm()">
     <h3>注册</h3>
     <%-- 显示错误信息 --%>
     <%

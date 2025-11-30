@@ -40,7 +40,7 @@
 <%
     if(session.getAttribute("user")==null)
     {
-        response.sendRedirect("/login");
+        response.sendRedirect("login");
     }
 %>
 <%
@@ -49,9 +49,9 @@
     <h1>岭南师范学院</h1>
     欢迎您：${user}&nbsp;先生/女士
     <br><br>
-    <a href="/login">退出</a>
-    <a href="/loginout">用户注销</a>
-    <a href="/queryStuAll">管理员界面</a>
+    <a href="login">退出</a>
+    <a href="loginout">用户注销</a>
+    <a href="student/queryAll">管理员界面</a>
 <%
     }
     else
@@ -59,7 +59,7 @@
 <h1>岭南师范学院</h1>
     ${user}&nbsp;${flag}&nbsp;请耐心等待
     <br><br>
-    <a href="/login">退出</a>
+    <a href="login">退出</a>
 <%
     }
 %>

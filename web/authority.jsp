@@ -13,6 +13,6 @@
 <body>
     <h1 align="center">你的权限不足，无法访问该页面，请以管理员身份登录</h1>
     <hr>
-<a href="/loginout">注销当前用户，返回登录页面</a>
+<a href="loginout">注销当前用户，返回登录页面</a>
 </body>
 </html>
