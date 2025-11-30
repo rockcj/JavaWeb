@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.lingnan.mapper.ScoreMapper">
+
+    <resultMap id="ScoreResultMap" type="cn.edu.lingnan.pojo.Score">
+        <id property="scoreId" column="score_id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="score" column="score"/>
+        <result property="semester" column="semester"/>
+        <result property="examType" column="exam_type"/>
+        <result property="flag" column="flag"/>
+    </resultMap>
+
+    <resultMap id="ScoreWithStudentAndCourseResultMap" type="cn.edu.lingnan.pojo.Score" extends="ScoreResultMap">
+        <association property="student" javaType="cn.edu.lingnan.pojo.Student">
+            <id property="sid" column="sid"/>
+            <result property="sname" column="sname"/>
+            <result property="sage" column="sage"/>
+        </association>
+        <association property="course" javaType="cn.edu.lingnan.pojo.Course">
+            <id property="courseId" column="course_id"/>
+            <result property="courseName" column="course_name"/>
+            <result property="credit" column="credit"/>
+        </association>
+    </resultMap>
+
+    <!-- 查询所有成绩 -->
+    <select id="queryAllScores" resultMap="ScoreResultMap">
+        SELECT score_id, student_id, course_id, score, semester, exam_type, flag
+        FROM score
+        WHERE flag = 0
+    </select>
+
+    <!-- 根据ID查询成绩 -->
+    <select id="queryScoreById" parameterType="String" resultMap="ScoreResultMap">
+        SELECT score_id, student_id, course_id, score, semester, exam_type, flag
+        FROM score
+        WHERE score_id = #{scoreId} AND flag = 0
+    </select>
+
+    <!-- 根据学生ID查询成绩 -->
+    <select id="queryScoresByStudentId" parameterType="String" resultMap="ScoreWithStudentAndCourseResultMap">
+        SELECT s.score_id, s.student_id, s.course_id, s.score, s.semester, s.exam_type, s.flag,
+               st.sid, st.sname, st.sage,
+               c.course_id as c_course_id, c.course_name, c.credit
+        FROM score s
+        LEFT JOIN student st ON s.student_id = st.sid
+        LEFT JOIN course c ON s.course_id = c.course_id
+        WHERE s.student_id = #{studentId} AND s.flag = 0
+    </select>
+
+    <!-- 根据课程ID查询成绩 -->
+    <select id="queryScoresByCourseId" parameterType="String" resultMap="ScoreWithStudentAndCourseResultMap">
+        SELECT s.score_id, s.student_id, s.course_id, s.score, s.semester, s.exam_type, s.flag,
+               st.sid, st.sname, st.sage,
+               c.course_id as c_course_id, c.course_name, c.credit
+        FROM score s
+        LEFT JOIN student st ON s.student_id = st.sid
+        LEFT JOIN course c ON s.course_id = c.course_id
+        WHERE s.course_id = #{courseId} AND s.flag = 0
+    </select>
+
+    <!-- 根据学生ID和课程ID查询成绩 -->
+    <select id="queryScoreByStudentAndCourse" resultMap="ScoreResultMap">
+        SELECT score_id, student_id, course_id, score, semester, exam_type, flag
+        FROM score
+        WHERE student_id = #{studentId} AND course_id = #{courseId} AND flag = 0
+    </select>
+
+    <!-- 根据条件查询成绩 -->
+    <select id="queryScoresByCondition" parameterType="map" resultMap="ScoreWithStudentAndCourseResultMap">
+        SELECT s.score_id, s.student_id, s.course_id, s.score, s.semester, s.exam_type, s.flag,
+               st.sid, st.sname, st.sage,
+               c.course_id as c_course_id, c.course_name, c.credit
+        FROM score s
+        LEFT JOIN student st ON s.student_id = st.sid
+        LEFT JOIN course c ON s.course_id = c.course_id
+        WHERE s.flag = 0
+        <if test="studentId != null and studentId != ''">
+            AND s.student_id = #{studentId}
+        </if>
+        <if test="courseId != null and courseId != ''">
+            AND s.course_id = #{courseId}
+        </if>
+        <if test="semester != null and semester != ''">
+            AND s.semester = #{semester}
+        </if>
+        <if test="examType != null and examType != ''">
+            AND s.exam_type = #{examType}
+        </if>
+        <if test="minScore != null">
+            AND s.score >= #{minScore}
+        </if>
+        <if test="maxScore != null">
+            AND s.score &lt;= #{maxScore}
+        </if>
+    </select>
+
+    <!-- 插入成绩 -->
+    <insert id="insertScore" parameterType="cn.edu.lingnan.pojo.Score">
+        INSERT INTO score (score_id, student_id, course_id, score, semester, exam_type, flag)
+        VALUES (#{scoreId}, #{studentId}, #{courseId}, #{score}, #{semester}, #{examType}, 0)
+    </insert>
+
+    <!-- 更新成绩 -->
+    <update id="updateScore" parameterType="cn.edu.lingnan.pojo.Score">
+        UPDATE score
+        SET student_id = #{studentId},
+            course_id = #{courseId},
+            score = #{score},
+            semester = #{semester},
+            exam_type = #{examType}
+        WHERE score_id = #{scoreId}
+    </update>
+
+    <!-- 删除成绩（逻辑删除） -->
+    <update id="deleteScore" parameterType="String">
+        UPDATE score
+        SET flag = 1
+        WHERE score_id = #{scoreId}
+    </update>
+
+    <!-- 根据条件删除成绩 -->
+    <update id="deleteScoreByCondition" parameterType="map">
+        UPDATE score
+        SET flag = 1
+        WHERE flag = 0
+        <if test="studentId != null and studentId != ''">
+            AND student_id = #{studentId}
+        </if>
+        <if test="courseId != null and courseId != ''">
+            AND course_id = #{courseId}
+        </if>
+        <if test="semester != null and semester != ''">
+            AND semester = #{semester}
+        </if>
+    </update>
+
+    <!-- 批量插入成绩 -->
+    <insert id="batchInsertScores" parameterType="list">
+        INSERT INTO score (score_id, student_id, course_id, score, semester, exam_type, flag)
+        VALUES
+        <foreach collection="list" item="score" separator=",">
+            (#{score.scoreId}, #{score.studentId}, #{score.courseId}, #{score.score}, #{score.semester}, #{score.examType}, 0)
+        </foreach>
+    </insert>
+
+</mapper>

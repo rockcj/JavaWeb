@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.lingnan.mapper.JobMapper">
+
+    <!-- Job结果映射 -->
+    <resultMap id="JobResultMap" type="cn.edu.lingnan.pojo.Job">
+        <id property="sid" column="sid"/>
+        <id property="iid" column="iid"/>
+        <result property="job" column="job"/>
+        <result property="scflag" column="scflag"/>
+    </resultMap>
+
+    <!-- JobDto结果映射 -->
+    <resultMap id="JobDtoResultMap" type="cn.edu.lingnan.Dto.JobDto">
+        <id property="sid" column="sid"/>
+        <id property="iid" column="iid"/>
+        <result property="sname" column="sname"/>
+        <result property="iname" column="iname"/>
+        <result property="job" column="job"/>
+    </resultMap>
+
+    <!-- 根据学生姓名模糊查询职位信息 -->
+    <select id="queryJobByName" resultMap="JobResultMap">
+        SELECT j.*
+        FROM job j
+        INNER JOIN student st ON j.sid = st.sid
+        WHERE st.sname LIKE CONCAT('%', #{_sname}, '%')
+    </select>
+
+    <!-- 查询所有职位的详细信息 -->
+    <select id="queryJobDtoAll" resultMap="JobDtoResultMap">
+        SELECT * FROM jobView
+    </select>
+
+</mapper>

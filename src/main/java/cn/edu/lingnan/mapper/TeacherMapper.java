@@ -1,11 +1,13 @@
 package cn.edu.lingnan.mapper;
 
 import cn.edu.lingnan.pojo.Teacher;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
+@Mapper
 public interface TeacherMapper {
     // 查询所有教师
     List<Teacher> queryAllTeachers();

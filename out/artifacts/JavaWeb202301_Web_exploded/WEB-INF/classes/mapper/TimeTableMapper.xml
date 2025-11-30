@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.lingnan.mapper.TimeTableMapper">
+
+    <resultMap id="TimeTableResultMap" type="cn.edu.lingnan.pojo.TimeTable">
+        <id property="timetableId" column="timetable_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="classroomId" column="classroom_id"/>
+        <result property="dayOfWeek" column="day_of_week"/>
+        <result property="timeSlot" column="time_slot"/>
+        <result property="semester" column="semester"/>
+        <result property="flag" column="tflag"/>
+    </resultMap>
+
+    <!-- 查询所有课表 -->
+    <select id="queryAllTimeTables" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE tflag = 0
+    </select>
+
+    <!-- 根据ID查询课表 -->
+    <select id="queryTimeTableById" parameterType="String" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE timetable_id = #{timetableId} AND tflag = 0
+    </select>
+
+    <!-- 根据课程ID查询课表 -->
+    <select id="queryTimeTableByCourseId" parameterType="String" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE course_id = #{courseId} AND tflag = 0
+    </select>
+
+    <!-- 根据教师ID查询课表 -->
+    <select id="queryTimeTableByTeacherId" parameterType="String" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE teacher_id = #{teacherId} AND tflag = 0
+    </select>
+
+    <!-- 根据教室ID查询课表 -->
+    <select id="queryTimeTableByClassroomId" parameterType="String" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE classroom_id = #{classroomId} AND tflag = 0
+    </select>
+
+    <!-- 根据学期查询课表 -->
+    <select id="queryTimeTableBySemester" parameterType="String" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE semester = #{semester} AND tflag = 0
+    </select>
+
+    <!-- 根据教师ID和学期查询课表 -->
+    <select id="queryTimeTableByTeacherAndSemester" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE teacher_id = #{teacherId} AND semester = #{semester} AND tflag = 0
+    </select>
+
+    <!-- 根据条件查询课表 -->
+    <select id="queryTimeTableByCondition" parameterType="map" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE tflag = 0
+        <if test="courseId != null and courseId != ''">
+            AND course_id = #{courseId}
+        </if>
+        <if test="teacherId != null and teacherId != ''">
+            AND teacher_id = #{teacherId}
+        </if>
+        <if test="classroomId != null and classroomId != ''">
+            AND classroom_id = #{classroomId}
+        </if>
+        <if test="semester != null and semester != ''">
+            AND semester = #{semester}
+        </if>
+        <if test="dayOfWeek != null and dayOfWeek != ''">
+            AND day_of_week = #{dayOfWeek}
+        </if>
+    </select>
+
+    <!-- 插入课表 -->
+    <insert id="insertTimeTable" parameterType="cn.edu.lingnan.pojo.TimeTable">
+        INSERT INTO timetable (timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag)
+        VALUES (#{timetableId}, #{courseId}, #{teacherId}, #{classroomId}, #{dayOfWeek}, #{timeSlot}, #{semester}, #{flag})
+    </insert>
+
+    <!-- 更新课表 -->
+    <update id="updateTimeTable" parameterType="cn.edu.lingnan.pojo.TimeTable">
+        UPDATE timetable
+        SET course_id = #{courseId},
+            teacher_id = #{teacherId},
+            classroom_id = #{classroomId},
+            day_of_week = #{dayOfWeek},
+            time_slot = #{timeSlot},
+            semester = #{semester},
+            tflag = #{flag}
+        WHERE timetable_id = #{timetableId}
+    </update>
+
+    <!-- 删除课表 -->
+    <update id="deleteTimeTable" parameterType="String">
+        UPDATE timetable
+        SET tflag = 1
+        WHERE timetable_id = #{timetableId}
+    </update>
+
+    <!-- 根据条件删除课表 -->
+    <update id="deleteTimeTableByCondition" parameterType="map">
+        UPDATE timetable
+        SET tflag = 1
+        WHERE tflag = 0
+        <if test="courseId != null and courseId != ''">
+            AND course_id = #{courseId}
+        </if>
+        <if test="teacherId != null and teacherId != ''">
+            AND teacher_id = #{teacherId}
+        </if>
+        <if test="semester != null and semester != ''">
+            AND semester = #{semester}
+        </if>
+    </update>
+
+    <!-- 根据教师ID和时间段查询冲突 -->
+    <select id="queryTimeConflictByTeacher" resultMap="TimeTableResultMap">
+        SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
+        FROM timetable
+        WHERE teacher_id = #{teacherId}
+          AND day_of_week = #{dayOfWeek}
+          AND time_slot = #{timeSlot}
+          AND semester = #{semester}
+          AND tflag = 0
+    </select>
+
+</mapper>
+
