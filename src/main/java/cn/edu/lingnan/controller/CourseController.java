@@ -2,6 +2,7 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.Course;
 import cn.edu.lingnan.service.CourseService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,14 @@ public class CourseController {
     
     @Autowired
     private CourseService courseService;
+
+    /**
+     * 显示添加课程页面
+     */
+    @RequestMapping(value = "/addCourse", method = RequestMethod.GET)
+    public String showAddCourse() {
+        return "redirect:/admin/addCourse.jsp";
+    }
 
     /**
      * 查询所有课程
@@ -53,25 +62,26 @@ public class CourseController {
     }
 
     /**
-     * 插入课程
+     * 插入课程（批量）
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> insertCourse(@ModelAttribute Course course) {
+    public Map<String, Object> insertCourse(@RequestBody String jsonData) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int insertResult = courseService.insertCourse(course);
-            if (insertResult > 0) {
-                result.put("status", "success");
-            } else {
-                result.put("status", "error");
-                result.put("message", "插入失败");
+            ObjectMapper mapper = new ObjectMapper();
+            List<Course> courses = mapper.readValue(jsonData,
+                    mapper.getTypeFactory().constructCollectionType(List.class, Course.class));
+            for (Course course : courses) {
+                courseService.insertCourse(course);
             }
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
             result.put("status", "error");
             result.put("message", e.getMessage());
+            return result;
         }
-        return result;
     }
 
     /**

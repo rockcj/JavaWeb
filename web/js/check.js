@@ -114,6 +114,22 @@ function addJobRow() {
         "<td><input type='text' name='scflag' value=''></td>";
 }
 
+function addCourseRow() {
+    var table = document.getElementById("TableBody");
+    var row = table.insertRow();
+    row.innerHTML =
+        "<td><input type='text' name='courseId' value=''></td>" +
+        "<td><input type='text' name='courseName' value=''></td>" +
+        "<td><input type='text' name='courseCode' value=''></td>" +
+        "<td><input type='text' name='deptId' value=''></td>" +
+        "<td><input type='text' name='credit' value=''></td>" +
+        "<td><input type='text' name='courseHours' value=''></td>" +
+        "<td><input type='text' name='courseType' value=''></td>" +
+        "<td><input type='text' name='teacherName' value=''></td>" +
+        "<td><input type='text' name='semester' value=''></td>" +
+        "<td><input type='text' name='courseDesc' value=''></td>";
+}
+
 function AJAX(InsertUrl,path,Object)
 {
     $.ajax({
@@ -276,6 +292,222 @@ async function insertJob(event) { // <--- 1. 添加 event 参数
         return;
     }
     AJAX('../job/insert','../job/queryAll',jobs);
+}
+
+async function insertCourse(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    // 读取表格，相当于2维数组
+    let rows = document.querySelectorAll("#TableBody tr");
+    let courses = [];
+
+    for (let row of rows) {
+        // 获取每一行输入框的值，1维数组
+        let inputs = row.querySelectorAll("input");
+        // 创建一个对象，将输入框的值保存起来
+        let course = {
+            courseId: inputs[0].value.trim(),
+            courseName: inputs[1].value.trim(),
+            courseCode: inputs[2].value.trim(),
+            deptId: inputs[3].value.trim(),
+            credit: inputs[4].value.trim(),
+            courseHours: inputs[5].value.trim(),
+            courseType: inputs[6].value.trim(),
+            teacherName: inputs[7].value.trim(),
+            semester: inputs[8].value.trim(),
+            courseDesc: inputs[9].value.trim()
+        };
+        // 确保所有必填字段都有值，才添加到数组中
+        if (course.courseId && course.courseName && course.courseCode) {
+            courses.push(course);
+        } else if (course.courseId || course.courseName || course.courseCode) {
+            console.warn("这一行数据不完整，已忽略该行:", course);
+            alert("这一行数据不完整，已忽略该行。课程ID、课程名称和课程编码为必填项。");
+        }
+    }
+    if (courses.length === 0) {
+        alert("没有有效的数据可以提交，请至少填写一行。");
+        return;
+    }
+    AJAX('../course/insert','../course/queryAll',courses);
+}
+
+function addDepartmentRow() {
+    var table = document.getElementById("TableBody");
+    var row = table.insertRow();
+    row.innerHTML =
+        "<td><input type='text' name='deptId' value=''></td>" +
+        "<td><input type='text' name='deptName' value=''></td>" +
+        "<td><input type='text' name='deptCode' value=''></td>" +
+        "<td><input type='text' name='deptHead' value=''></td>" +
+        "<td><input type='text' name='deptPhone' value=''></td>" +
+        "<td><input type='text' name='deptEmail' value=''></td>" +
+        "<td><input type='text' name='deptDesc' value=''></td>";
+}
+
+async function insertDepartment(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    let rows = document.querySelectorAll("#TableBody tr");
+    let departments = [];
+    for (let row of rows) {
+        let inputs = row.querySelectorAll("input");
+        let dept = {
+            deptId: inputs[0].value.trim(),
+            deptName: inputs[1].value.trim(),
+            deptCode: inputs[2].value.trim(),
+            deptHead: inputs[3].value.trim(),
+            deptPhone: inputs[4].value.trim(),
+            deptEmail: inputs[5].value.trim(),
+            deptDesc: inputs[6].value.trim()
+        };
+        if (dept.deptId && dept.deptName && dept.deptCode) {
+            departments.push(dept);
+        } else if (dept.deptId || dept.deptName || dept.deptCode) {
+            console.warn("这一行数据不完整，已忽略该行:", dept);
+            alert("这一行数据不完整，已忽略该行。院系ID、院系名称和院系编码为必填项。");
+        }
+    }
+    if (departments.length === 0) {
+        alert("没有有效的数据可以提交，请至少填写一行。");
+        return;
+    }
+    AJAX('../department/insert','../department/queryAll',departments);
+}
+
+function addScoreRow() {
+    var table = document.getElementById("TableBody");
+    var row = table.insertRow();
+    row.innerHTML =
+        "<td><input type='text' name='scoreId' value=''></td>" +
+        "<td><input type='text' name='studentId' value=''></td>" +
+        "<td><input type='text' name='courseId' value=''></td>" +
+        "<td><input type='text' name='score' value=''></td>" +
+        "<td><input type='text' name='semester' value=''></td>" +
+        "<td><input type='text' name='examType' value=''></td>";
+}
+
+async function insertScore(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    let rows = document.querySelectorAll("#TableBody tr");
+    let scores = [];
+    for (let row of rows) {
+        let inputs = row.querySelectorAll("input");
+        let score = {
+            scoreId: inputs[0].value.trim(),
+            studentId: inputs[1].value.trim(),
+            courseId: inputs[2].value.trim(),
+            score: inputs[3].value.trim(),
+            semester: inputs[4].value.trim(),
+            examType: inputs[5].value.trim()
+        };
+        if (score.scoreId && score.studentId && score.courseId) {
+            scores.push(score);
+        } else if (score.scoreId || score.studentId || score.courseId) {
+            console.warn("这一行数据不完整，已忽略该行:", score);
+            alert("这一行数据不完整，已忽略该行。成绩ID、学生ID和课程ID为必填项。");
+        }
+    }
+    if (scores.length === 0) {
+        alert("没有有效的数据可以提交，请至少填写一行。");
+        return;
+    }
+    AJAX('../score/insert','../score/queryAll',scores);
+}
+
+function addTeacherRow() {
+    var table = document.getElementById("TableBody");
+    var row = table.insertRow();
+    row.innerHTML =
+        "<td><input type='text' name='teacherId' value=''></td>" +
+        "<td><input type='text' name='teacherName' value=''></td>" +
+        "<td><input type='text' name='gender' value=''></td>" +
+        "<td><input type='text' name='age' value=''></td>" +
+        "<td><input type='text' name='phone' value=''></td>" +
+        "<td><input type='text' name='email' value=''></td>" +
+        "<td><input type='text' name='deptId' value=''></td>" +
+        "<td><input type='text' name='title' value=''></td>";
+}
+
+async function insertTeacher(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    let rows = document.querySelectorAll("#TableBody tr");
+    let teachers = [];
+    for (let row of rows) {
+        let inputs = row.querySelectorAll("input");
+        let teacher = {
+            teacherId: inputs[0].value.trim(),
+            teacherName: inputs[1].value.trim(),
+            gender: inputs[2].value.trim(),
+            age: inputs[3].value.trim(),
+            phone: inputs[4].value.trim(),
+            email: inputs[5].value.trim(),
+            deptId: inputs[6].value.trim(),
+            title: inputs[7].value.trim()
+        };
+        if (teacher.teacherId && teacher.teacherName) {
+            teachers.push(teacher);
+        } else if (teacher.teacherId || teacher.teacherName) {
+            console.warn("这一行数据不完整，已忽略该行:", teacher);
+            alert("这一行数据不完整，已忽略该行。教师ID和教师姓名为必填项。");
+        }
+    }
+    if (teachers.length === 0) {
+        alert("没有有效的数据可以提交，请至少填写一行。");
+        return;
+    }
+    AJAX('../teacher/insert','../teacher/queryAll',teachers);
+}
+
+function addTimeTableRow() {
+    var table = document.getElementById("TableBody");
+    var row = table.insertRow();
+    row.innerHTML =
+        "<td><input type='text' name='timetableId' value=''></td>" +
+        "<td><input type='text' name='courseId' value=''></td>" +
+        "<td><input type='text' name='teacherId' value=''></td>" +
+        "<td><input type='text' name='classroomId' value=''></td>" +
+        "<td><input type='text' name='dayOfWeek' value=''></td>" +
+        "<td><input type='text' name='timeSlot' value=''></td>" +
+        "<td><input type='text' name='semester' value=''></td>";
+}
+
+async function insertTimeTable(event) {
+    if (event) {
+        event.preventDefault();
+    }
+    let rows = document.querySelectorAll("#TableBody tr");
+    let timeTables = [];
+    for (let row of rows) {
+        let inputs = row.querySelectorAll("input");
+        let timeTable = {
+            timetableId: inputs[0].value.trim(),
+            courseId: inputs[1].value.trim(),
+            teacherId: inputs[2].value.trim(),
+            classroomId: inputs[3].value.trim(),
+            dayOfWeek: inputs[4].value.trim(),
+            timeSlot: inputs[5].value.trim(),
+            semester: inputs[6].value.trim()
+        };
+        if (timeTable.timetableId && timeTable.courseId && timeTable.teacherId) {
+            timeTables.push(timeTable);
+        } else if (timeTable.timetableId || timeTable.courseId || timeTable.teacherId) {
+            console.warn("这一行数据不完整，已忽略该行:", timeTable);
+            alert("这一行数据不完整，已忽略该行。课表ID、课程ID和教师ID为必填项。");
+        }
+    }
+    if (timeTables.length === 0) {
+        alert("没有有效的数据可以提交，请至少填写一行。");
+        return;
+    }
+    AJAX('../timetable/insert','../timetable/queryAll',timeTables);
 }
 
 // 单ID批量删除函数（用于teacher、item等只有一个主键的表）

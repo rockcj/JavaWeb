@@ -2,6 +2,7 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.Department;
 import cn.edu.lingnan.service.DepartmentService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,14 @@ public class DepartmentController {
     
     @Autowired
     private DepartmentService departmentService;
+
+    /**
+     * 显示添加院系页面
+     */
+    @RequestMapping(value = "/addDepartment", method = RequestMethod.GET)
+    public String showAddDepartment() {
+        return "redirect:/admin/addDepartment.jsp";
+    }
 
     /**
      * 查询所有院系
@@ -53,25 +62,26 @@ public class DepartmentController {
     }
 
     /**
-     * 插入院系
+     * 插入院系（批量）
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> insertDepartment(@ModelAttribute Department department) {
+    public Map<String, Object> insertDepartment(@RequestBody String jsonData) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int insertResult = departmentService.insertDepartment(department);
-            if (insertResult > 0) {
-                result.put("status", "success");
-            } else {
-                result.put("status", "error");
-                result.put("message", "插入失败");
+            ObjectMapper mapper = new ObjectMapper();
+            List<Department> departments = mapper.readValue(jsonData,
+                    mapper.getTypeFactory().constructCollectionType(List.class, Department.class));
+            for (Department department : departments) {
+                departmentService.insertDepartment(department);
             }
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
             result.put("status", "error");
             result.put("message", e.getMessage());
+            return result;
         }
-        return result;
     }
 
     /**

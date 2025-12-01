@@ -2,6 +2,7 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.Score;
 import cn.edu.lingnan.service.ScoreService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,14 @@ public class ScoreController {
     
     @Autowired
     private ScoreService scoreService;
+
+    /**
+     * 显示添加成绩页面
+     */
+    @RequestMapping(value = "/addScore", method = RequestMethod.GET)
+    public String showAddScore() {
+        return "redirect:/admin/addScore.jsp";
+    }
 
     /**
      * 查询所有成绩
@@ -63,25 +72,26 @@ public class ScoreController {
     }
 
     /**
-     * 插入成绩
+     * 插入成绩（批量）
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> insertScore(@ModelAttribute Score score) {
+    public Map<String, Object> insertScore(@RequestBody String jsonData) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int insertResult = scoreService.insertScore(score);
-            if (insertResult > 0) {
-                result.put("status", "success");
-            } else {
-                result.put("status", "error");
-                result.put("message", "插入失败");
+            ObjectMapper mapper = new ObjectMapper();
+            List<Score> scores = mapper.readValue(jsonData,
+                    mapper.getTypeFactory().constructCollectionType(List.class, Score.class));
+            for (Score score : scores) {
+                scoreService.insertScore(score);
             }
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
             result.put("status", "error");
             result.put("message", e.getMessage());
+            return result;
         }
-        return result;
     }
 
     /**

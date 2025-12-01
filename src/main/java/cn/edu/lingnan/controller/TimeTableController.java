@@ -2,6 +2,7 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.TimeTable;
 import cn.edu.lingnan.service.TimeTableService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,14 @@ public class TimeTableController {
     
     @Autowired
     private TimeTableService timeTableService;
+
+    /**
+     * 显示添加课程表页面
+     */
+    @RequestMapping(value = "/addTimeTable", method = RequestMethod.GET)
+    public String showAddTimeTable() {
+        return "redirect:/admin/addTimeTable.jsp";
+    }
 
     /**
      * 查询所有课程表
@@ -73,25 +82,26 @@ public class TimeTableController {
     }
 
     /**
-     * 插入课程表
+     * 插入课程表（批量）
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> insertTimeTable(@ModelAttribute TimeTable timeTable) {
+    public Map<String, Object> insertTimeTable(@RequestBody String jsonData) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int insertResult = timeTableService.insertTimeTable(timeTable);
-            if (insertResult > 0) {
-                result.put("status", "success");
-            } else {
-                result.put("status", "error");
-                result.put("message", "插入失败");
+            ObjectMapper mapper = new ObjectMapper();
+            List<TimeTable> timeTables = mapper.readValue(jsonData,
+                    mapper.getTypeFactory().constructCollectionType(List.class, TimeTable.class));
+            for (TimeTable timeTable : timeTables) {
+                timeTableService.insertTimeTable(timeTable);
             }
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
             result.put("status", "error");
             result.put("message", e.getMessage());
+            return result;
         }
-        return result;
     }
 
     /**

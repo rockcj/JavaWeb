@@ -66,6 +66,6 @@
         }
     %>
 </table>
-<a href="addScore.jsp" class="add-item-btn">+</a>
+<a href="${pageContext.request.contextPath}/score/addScore" class="add-item-btn">+</a>
 </body>
 

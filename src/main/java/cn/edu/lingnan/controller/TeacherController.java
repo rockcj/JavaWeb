@@ -2,6 +2,7 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.Teacher;
 import cn.edu.lingnan.service.TeacherService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,14 @@ public class TeacherController {
     
     @Autowired
     private TeacherService teacherService;
+
+    /**
+     * 显示添加教师页面
+     */
+    @RequestMapping(value = "/addTeacher", method = RequestMethod.GET)
+    public String showAddTeacher() {
+        return "redirect:/admin/addTeacher.jsp";
+    }
 
     /**
      * 查询所有教师
@@ -63,25 +72,26 @@ public class TeacherController {
     }
 
     /**
-     * 插入教师
+     * 插入教师（批量）
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> insertTeacher(@ModelAttribute Teacher teacher) {
+    public Map<String, Object> insertTeacher(@RequestBody String jsonData) {
         Map<String, Object> result = new HashMap<>();
         try {
-            int insertResult = teacherService.insertTeacher(teacher);
-            if (insertResult > 0) {
-                result.put("status", "success");
-            } else {
-                result.put("status", "error");
-                result.put("message", "插入失败");
+            ObjectMapper mapper = new ObjectMapper();
+            List<Teacher> teachers = mapper.readValue(jsonData,
+                    mapper.getTypeFactory().constructCollectionType(List.class, Teacher.class));
+            for (Teacher teacher : teachers) {
+                teacherService.insertTeacher(teacher);
             }
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
             result.put("status", "error");
             result.put("message", e.getMessage());
+            return result;
         }
-        return result;
     }
 
     /**

@@ -74,6 +74,6 @@
         }
     %>
 </table>
-<a href="addCourse.jsp" class="add-item-btn">+</a>
+<a href="${pageContext.request.contextPath}/course/addCourse" class="add-item-btn">+</a>
 </body>
 
