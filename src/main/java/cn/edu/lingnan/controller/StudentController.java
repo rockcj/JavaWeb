@@ -47,7 +47,7 @@ public class StudentController {
      * 查询单个学生信息
      * 对应原：OneStudent
      */
-    @RequestMapping("/one")
+    @RequestMapping({"/one", "/oneStu"})
     public String queryOne(HttpSession session, Model model) {
         if (session != null) {
             String sid = (String) session.getAttribute("sid");
