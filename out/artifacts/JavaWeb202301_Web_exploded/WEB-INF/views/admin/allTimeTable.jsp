@@ -68,6 +68,6 @@
         }
     %>
 </table>
-<a href="addTimeTable.jsp" class="add-item-btn">+</a>
+<a href="${pageContext.request.contextPath}/timetable/addTimeTable" class="add-item-btn">+</a>
 </body>
 
