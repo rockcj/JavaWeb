@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TeacherController - 教师管理控制器
@@ -65,17 +67,21 @@ public class TeacherController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertTeacher(@ModelAttribute Teacher teacher) {
+    public Map<String, Object> insertTeacher(@ModelAttribute Teacher teacher) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            int result = teacherService.insertTeacher(teacher);
-            if (result > 0) {
-                return "{\"status\":\"success\"}";
+            int insertResult = teacherService.insertTeacher(teacher);
+            if (insertResult > 0) {
+                result.put("status", "success");
             } else {
-                return "{\"status\":\"error\",\"message\":\"插入失败\"}";
+                result.put("status", "error");
+                result.put("message", "插入失败");
             }
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     /**

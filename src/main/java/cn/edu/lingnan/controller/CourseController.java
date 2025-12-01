@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * CourseController - 课程管理控制器
@@ -55,17 +57,21 @@ public class CourseController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertCourse(@ModelAttribute Course course) {
+    public Map<String, Object> insertCourse(@ModelAttribute Course course) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            int result = courseService.insertCourse(course);
-            if (result > 0) {
-                return "{\"status\":\"success\"}";
+            int insertResult = courseService.insertCourse(course);
+            if (insertResult > 0) {
+                result.put("status", "success");
             } else {
-                return "{\"status\":\"error\",\"message\":\"插入失败\"}";
+                result.put("status", "error");
+                result.put("message", "插入失败");
             }
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     /**

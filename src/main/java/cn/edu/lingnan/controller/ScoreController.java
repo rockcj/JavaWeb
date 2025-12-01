@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ScoreController - 成绩管理控制器
@@ -65,17 +67,21 @@ public class ScoreController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertScore(@ModelAttribute Score score) {
+    public Map<String, Object> insertScore(@ModelAttribute Score score) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            int result = scoreService.insertScore(score);
-            if (result > 0) {
-                return "{\"status\":\"success\"}";
+            int insertResult = scoreService.insertScore(score);
+            if (insertResult > 0) {
+                result.put("status", "success");
             } else {
-                return "{\"status\":\"error\",\"message\":\"插入失败\"}";
+                result.put("status", "error");
+                result.put("message", "插入失败");
             }
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     /**
@@ -83,17 +89,22 @@ public class ScoreController {
      */
     @RequestMapping(value = "/batchInsert", method = RequestMethod.POST)
     @ResponseBody
-    public String batchInsertScore(@RequestBody List<Score> scores) {
+    public Map<String, Object> batchInsertScore(@RequestBody List<Score> scores) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            int result = scoreService.batchInsertScores(scores);
-            if (result > 0) {
-                return "{\"status\":\"success\",\"count\":" + result + "}";
+            int insertResult = scoreService.batchInsertScores(scores);
+            if (insertResult > 0) {
+                result.put("status", "success");
+                result.put("count", insertResult);
             } else {
-                return "{\"status\":\"error\",\"message\":\"批量插入失败\"}";
+                result.put("status", "error");
+                result.put("message", "批量插入失败");
             }
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     /**

@@ -1,12 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
-    <script src="../js/check.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/list.css">
-    <title>添加项目信息</title>
+    <title>添加学生信息</title>
 </head>
 <body>
-<h1>岭南师范学院学生管理系统———添加项目信息</h1>
+<h1>岭南师范学院学生管理系统———添加学生信息</h1>
 欢迎您：${user}&nbsp;先生/女士
 <br><br>
 <a href="../login">退出</a>
@@ -38,3 +36,8 @@
     <br><br>
     <button type="submit" class="submit-btn" onclick="insertStu(event)">提交</button>
 </form>
+<!-- 将脚本移到页面底部，避免阻塞页面渲染，使用更快的CDN -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="../js/check.js"></script>
+</body>
+</html>

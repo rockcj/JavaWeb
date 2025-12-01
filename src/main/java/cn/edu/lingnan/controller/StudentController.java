@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * StudentController - 学生管理控制器
@@ -45,7 +47,7 @@ public class StudentController {
      * 查询单个学生信息
      * 对应原：OneStudent
      */
-    @RequestMapping("/one")
+    @RequestMapping({"/one", "/oneStu"})
     public String queryOne(HttpSession session, Model model) {
         if (session != null) {
             String sid = (String) session.getAttribute("sid");
@@ -64,7 +66,8 @@ public class StudentController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertStudent(@RequestBody String jsonData) {
+    public Map<String, Object> insertStudent(@RequestBody String jsonData) {
+        Map<String, Object> result = new HashMap<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             List<Student> students = mapper.readValue(jsonData,
@@ -72,9 +75,12 @@ public class StudentController {
             for (Student stu : students) {
                 studentService.insertStudent(stu);
             }
-            return "{\"status\":\"success\"}";
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
+            return result;
         }
     }
 

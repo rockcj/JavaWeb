@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * JobController - 工作/任务管理控制器
@@ -39,7 +41,8 @@ public class JobController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertJob(@RequestBody String jsonData) {
+    public Map<String, Object> insertJob(@RequestBody String jsonData) {
+        Map<String, Object> result = new HashMap<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             List<Job> jobs = mapper.readValue(jsonData,
@@ -47,9 +50,12 @@ public class JobController {
             for (Job job : jobs) {
                 jobService.insertJob(job);
             }
-            return "{\"status\":\"success\"}";
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
+            return result;
         }
     }
 

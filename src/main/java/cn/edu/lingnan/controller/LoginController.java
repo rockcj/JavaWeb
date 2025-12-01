@@ -105,5 +105,22 @@ public class LoginController {
         // 重定向到登录页面
         return "redirect:/Login.html";
     }
+    
+    /**
+     * 查询单个学生信息（兼容旧路径 /oneStu）
+     * 对应原：OneStudent Servlet
+     */
+    @RequestMapping("/oneStu")
+    public String queryOneStu(HttpSession session, Model model) {
+        if (session != null) {
+            String sid = (String) session.getAttribute("sid");
+            if (sid != null) {
+                Student stu = studentService.queryStudentById(sid);
+                session.setAttribute("stu", stu);
+                return "redirect:/USER/Stu.jsp";
+            }
+        }
+        return "redirect:/Login.html";
+    }
 }
 

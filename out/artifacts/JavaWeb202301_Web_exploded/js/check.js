@@ -1,22 +1,22 @@
 
 function allcheck(checkbox) {
-    //alert("ȫѡ");
+    //alert("全选");
     let checks = document.getElementsByName("check");
     for (let i = 0; i < checks.length; i++) {
-        checks[i].checked = checkbox.checked; //ʹ�����Ĺ�ѡ�����ͷ��ȫѡ�򱣳�һ��
+        checks[i].checked = checkbox.checked; //使用复选框的状态来保持全选状态一致
     }
 }
 
 function delcheck(path, id, id2) {
-    alert("����ɾ������");
-    //�ȼ�¼����������������ˣ�����ɾ��
+    alert("开始删除操作");
+    //先记录要删除的记录，然后进行删除
     var ids = new Array();
     var ids2 = new Array();
     var flag = false;
     let checks = document.getElementsByName("check");
     let count = 0;
     for (let i = 0; i < checks.length; i++) {
-        if (checks[i].checked) //���checks[i]��ѡ��
+        if (checks[i].checked) //如果checks[i]被选中
         {
             let val = checks[i].value.split(",");
             ids.push(val[0]);  // sid
@@ -26,15 +26,15 @@ function delcheck(path, id, id2) {
         }
     }
     if (flag) {
-        if (confirm("��ȷ��ɾ����")) {
+        if (confirm("确定要删除吗？")) {
             location.href = path + "?flag=all&" + id + "="
                 + encodeURIComponent(ids.join(",")) + "&" + id2 + "="
                 + encodeURIComponent(ids2.join(","));
-            alert("ɾ����" + count + "������");
+            alert("删除了" + count + "条记录");
             alert(ids);
         }
     } else {
-        alert("û��ѡ������");
+        alert("没有选中记录");
     }
 }
 function OKcheck() {
@@ -43,7 +43,7 @@ function OKcheck() {
     let checks = document.getElementsByName("check");
     let count = 0;
     for (let i = 0; i < checks.length; i++) {
-        if (checks[i].checked) //���checks[i]��ѡ��
+        if (checks[i].checked) //如果checks[i]被选中
         {
             let val = checks[i].value;
             ids.push(val);  // sid
@@ -54,10 +54,10 @@ function OKcheck() {
     if (flag) {
             location.href = "../student/check?count=all&sid="
                 + encodeURIComponent(ids.join(","));
-            alert("ͨ��" + count + "������");
+            alert("通过了" + count + "条记录");
             alert(ids);
     } else {
-        alert("û��ѡ������");
+        alert("没有选中记录");
     }
 }
 function checkForm() {
@@ -67,20 +67,20 @@ function checkForm() {
 
     var reg = /^[0-9][0-9][0-9]$/;
     if (userId == "") {
-        alert("�û�������Ϊ��");
+        alert("用户ID不能为空");
         return false;
     } else if (!userId.match(reg)) {
-        alert("�û�����ʽ����");
+        alert("用户ID格式错误");
         return false;
     }
 
     if (password == "") {
-        alert("���벻��Ϊ��");
+        alert("密码不能为空");
         return false;
     }
 
     if (password != OKPassword) {
-        alert("������������벻һ��");
+        alert("两次输入的密码不一致");
         return false;
     }
     return true;
@@ -118,83 +118,110 @@ function AJAX(InsertUrl,path,Object)
 {
     $.ajax({
         type: "POST",
-        url: InsertUrl, // ��˽ӿڵ�ַ
-        data: JSON.stringify(Object), // �� JavaScript ��������ת��Ϊ JSON �ַ���
-        contentType: "application/json", // ��֪�������������� JSON ��ʽ
+        url: InsertUrl, // 服务器接口地址
+        data: JSON.stringify(Object), // 将 JavaScript 对象数组转换为 JSON 字符串
+        contentType: "application/json", // 告知服务器发送的数据是 JSON 格式
+        dataType: "json", // 明确指定返回数据类型为JSON，确保jQuery正确解析
 
-        success: function (data) {
-            console.log("��Ӧ����:", data);
-            console.log("666"); // ��ĵ�����Ϣ
+        success: function (data, textStatus, xhr) {
+            console.log("响应数据:", data);
+            console.log("响应数据类型:", typeof data);
+            console.log("响应状态:", textStatus);
+            console.log("XHR对象:", xhr);
 
-            if (data.status) { // ȷ�� data ����������� status ����
-                alert("�ύ�ɹ���");
-                location.href = path; // �ύ�ɹ���ת��/queryItemAllҳ��
+            // 处理返回的数据，可能是字符串或对象
+            var responseData = data;
+            if (typeof data === 'string') {
+                try {
+                    responseData = JSON.parse(data);
+                    console.log("解析后的数据:", responseData);
+                } catch (e) {
+                    console.error("JSON解析失败:", e);
+                    console.log("原始响应文本:", xhr.responseText);
+                    // 如果解析失败，尝试从responseText解析
+                    try {
+                        responseData = JSON.parse(xhr.responseText);
+                    } catch (e2) {
+                        console.error("从responseText解析也失败:", e2);
+                        alert("服务器响应格式错误，请检查控制台！");
+                        return;
+                    }
+                }
+            }
+
+            // 检查返回的状态
+            if (responseData && (responseData.status === "success" || responseData.status === true)) {
+                alert("提交成功！");
+                // 添加时间戳避免缓存，确保跳转后重新加载数据
+                var separator = path.indexOf('?') > -1 ? '&' : '?';
+                // 使用window.location.replace确保不会在历史记录中留下当前页面
+                window.location.replace(path + separator + '_t=' + new Date().getTime());
             } else {
-                // ������˷��� status Ϊ false ��������Ԥ�ڳɹ�״̬
-                let message = "�ύ����δ�ɹ�";
-                if (data && data.message) { // �����˷����˾���Ĵ�����Ϣ
-                    message += "��" + data.message;
+                // 如果服务器返回 status 为 false 或其他非成功状态
+                let message = "提交操作未成功";
+                if (responseData && responseData.message) { // 如果服务器返回了具体的错误信息
+                    message += "：" + responseData.message;
                 }
                 alert(message);
-                console.log("�����Ӧָʾ����δ�ɹ�:", data);
+                console.log("服务器响应指示操作未成功:", responseData);
             }
         },
         error: function (xhr, status, error) {
-            //hideLoading(); // <--- ȷ�� hideLoading �����Ѷ����ҿ���
-            alert("�ύʧ�ܣ������������ϵ����Ա��");
-            console.error("AJAX�������״̬: ", status);
-            console.error("�׳��Ĵ�������: ", error);
-            console.error("��������Ӧ�� (XHR):", xhr.responseText); // ����ڵ��Ժ�˴���ǳ�����
+            //hideLoading(); // <--- 确保 hideLoading 函数已经定义且可用
+            alert("提交失败，请联系系统管理员！");
+            console.error("AJAX请求状态: ", status);
+            console.error("抛出的错误信息: ", error);
+            console.error("服务器响应内容 (XHR):", xhr.responseText); // 这在调试时此处会很有用
         }
     });
 }
 
-async function insertItem(event) { // <--- 1. ���� event ����
-    if (event) { // ��� event �Ƿ��룬�Է�������������ʽ����
-        event.preventDefault(); // <--- 2. ��ֹ������Ĭ���ύ��Ϊ
+async function insertItem(event) { // <--- 1. 添加 event 参数
+    if (event) { // 检查 event 是否存在，以防表单以传统方式提交
+        event.preventDefault(); // <--- 2. 阻止表单的默认提交行为
     }
 
-    //��ȡ�����൱��2ά����
+    //读取表格，相当于2维数组
     let rows = document.querySelectorAll("#TableBody tr");
     let items = [];
 
     for (let row of rows) {
-        //��ȡÿһ��������ֵ��1ά����
+        //获取每一行输入框的值，1维数组
         let inputs = row.querySelectorAll("input");
-        //  ����һ�����󣬽�������ֵ��������
+        //  创建一个对象，将输入框的值保存起来
         let item = {
             iid: inputs[0].value.trim(),
             iname: inputs[1].value.trim(),
             iflag: inputs[2].value.trim()
         };
-        // ȷ�������ֶζ���ֵ�����ӵ�������
+        // 确保所有字段都有值，才添加到数组中
         if (item.iid && item.iname && item.iflag) {
             items.push(item);
-        } else if (item.iid || item.iname || item.iflag) { // ����������κ�һ���������д�ˣ�������ȫ�������Ը�����ʾ�����
-            console.warn("��������һ�����ݲ��������Ѻ��Ը���:", item);
-            alert("��������һ�����ݲ��������Ѻ��Ը��С�"+item.iid+" "+item.iname+" "+item.iflag);
+        } else if (item.iid || item.iname || item.iflag) { // 如果这一行有任何字段被写了，但不是全部填写，则忽略该行并显示警告
+            console.warn("这一行数据不完整，已忽略该行:", item);
+            alert("这一行数据不完整，已忽略该行。"+item.iid+" "+item.iname+" "+item.iflag);
         }
     }
     if (items.length === 0) {
-        alert("û����Ч�����ݿ����ύ��������������дһ�С�");
+        alert("没有有效的数据可以提交，请至少填写一行。");
         return;
     }
     AJAX('../item/insert','../item/queryAll',items);
 }
 
-async function insertStu(event) { // <--- 1. ���� event ����
-    if (event) { // ��� event �Ƿ��룬�Է�������������ʽ����
-        event.preventDefault(); // <--- 2. ��ֹ������Ĭ���ύ��Ϊ
+async function insertStu(event) { // <--- 1. 添加 event 参数
+    if (event) { // 检查 event 是否存在，以防表单以传统方式提交
+        event.preventDefault(); // <--- 2. 阻止表单的默认提交行为
     }
 
-    //��ȡ�����൱��2ά����
+    //读取表格，相当于2维数组
     let rows = document.querySelectorAll("#TableBody tr");
     let students = [];
 
     for (let row of rows) {
-        //��ȡÿһ��������ֵ��1ά����
+        //获取每一行输入框的值，1维数组
         let inputs = row.querySelectorAll("input");
-        //  ����һ�����󣬽�������ֵ��������
+        //  创建一个对象，将输入框的值保存起来
         let stu = {
             sid: inputs[0].value.trim(),
             sname: inputs[1].value.trim(),
@@ -202,50 +229,50 @@ async function insertStu(event) { // <--- 1. ���� event ����
             sright: inputs[3].value.trim(),
             stflag: inputs[4].value.trim()
         };
-        // ȷ�������ֶζ���ֵ�����ӵ�������
+        // 确保所有字段都有值，才添加到数组中
         if (stu.sid && stu.sname && stu.spassword && stu.sright && stu.stflag) {
             students.push(stu);
-        } else if (stu.sid || stu.sname || stu.spassword || stu.sright || stu.stflag) { // ����������κ�һ���������д�ˣ�������ȫ�������Ը�����ʾ�����
-            console.warn("��������һ�����ݲ��������Ѻ��Ը���:", stu);
-            alert("��������һ�����ݲ��������Ѻ��Ը��С�"+stu.sid+" "+stu.sname+" "+stu.spassword+" "+stu.sright+" "+stu.stflag);
+        } else if (stu.sid || stu.sname || stu.spassword || stu.sright || stu.stflag) { // 如果这一行有任何字段被写了，但不是全部填写，则忽略该行并显示警告
+            console.warn("这一行数据不完整，已忽略该行:", stu);
+            alert("这一行数据不完整，已忽略该行。"+stu.sid+" "+stu.sname+" "+stu.spassword+" "+stu.sright+" "+stu.stflag);
         }
     }
     if (students.length === 0) {
-        alert("û����Ч�����ݿ����ύ��������������дһ�С�");
+        alert("没有有效的数据可以提交，请至少填写一行。");
         return;
     }
     AJAX('../student/insert','../student/queryAll',students);
 }
 
-async function insertJob(event) { // <--- 1. ���� event ����
-    if (event) { // ��� event �Ƿ��룬�Է�������������ʽ����
-        event.preventDefault(); // <--- 2. ��ֹ������Ĭ���ύ��Ϊ
+async function insertJob(event) { // <--- 1. 添加 event 参数
+    if (event) { // 检查 event 是否存在，以防表单以传统方式提交
+        event.preventDefault(); // <--- 2. 阻止表单的默认提交行为
     }
 
-    //��ȡ�����൱��2ά����
+    //读取表格，相当于2维数组
     let rows = document.querySelectorAll("#TableBody tr");
     let jobs = [];
 
     for (let row of rows) {
-        //��ȡÿһ��������ֵ��1ά����
+        //获取每一行输入框的值，1维数组
         let inputs = row.querySelectorAll("input");
-        //  ����һ�����󣬽�������ֵ��������
+        //  创建一个对象，将输入框的值保存起来
         let job = {
             sid: inputs[0].value.trim(),
             iid: inputs[1].value.trim(),
             job: inputs[2].value.trim(),
             scflag: inputs[3].value.trim()
         };
-        // ȷ�������ֶζ���ֵ�����ӵ�������
+        // 确保所有字段都有值，才添加到数组中
         if (job.sid && job.iid && job.job  && job.scflag) {
             jobs.push(job);
-        } else if (job.sid || job.iid || job.job  || job.scflag) { // ����������κ�һ���������д�ˣ�������ȫ�������Ը�����ʾ�����
-            console.warn("��������һ�����ݲ��������Ѻ��Ը���:", job);
-            alert("��������һ�����ݲ��������Ѻ��Ը��С�"+job.sid+" "+job.iid+" "+job.job+" "+job.scflag);
+        } else if (job.sid || job.iid || job.job  || job.scflag) { // 如果这一行有任何字段被写了，但不是全部填写，则忽略该行并显示警告
+            console.warn("这一行数据不完整，已忽略该行:", job);
+            alert("这一行数据不完整，已忽略该行。"+job.sid+" "+job.iid+" "+job.job+" "+job.scflag);
         }
     }
     if (jobs.length === 0) {
-        alert("û����Ч�����ݿ����ύ��������������дһ�С�");
+        alert("没有有效的数据可以提交，请至少填写一行。");
         return;
     }
     AJAX('../job/insert','../job/queryAll',jobs);
