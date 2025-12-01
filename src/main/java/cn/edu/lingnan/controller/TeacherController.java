@@ -79,6 +79,22 @@ public class TeacherController {
     }
 
     /**
+     * 显示编辑教师页面
+     */
+    @RequestMapping("/showUpdate")
+    @SuppressWarnings("unchecked")
+    public String showUpdate(@RequestParam("teacherId") String teacherId, HttpSession session, Model model) {
+        // 确保session中有allTeacher列表
+        List<Teacher> list = (List<Teacher>) session.getAttribute("allTeacher");
+        if (list == null) {
+            list = teacherService.queryAllTeachers();
+            session.setAttribute("allTeacher", list);
+        }
+        model.addAttribute("allTeacher", list);
+        return "admin/updateTeacher";
+    }
+
+    /**
      * 更新教师信息
      */
     @RequestMapping("/update")

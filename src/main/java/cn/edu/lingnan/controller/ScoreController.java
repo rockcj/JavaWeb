@@ -97,6 +97,22 @@ public class ScoreController {
     }
 
     /**
+     * 显示编辑成绩页面
+     */
+    @RequestMapping("/showUpdate")
+    @SuppressWarnings("unchecked")
+    public String showUpdate(@RequestParam("scoreId") String scoreId, HttpSession session, Model model) {
+        // 确保session中有allScore列表
+        List<Score> list = (List<Score>) session.getAttribute("allScore");
+        if (list == null) {
+            list = scoreService.queryAllScores();
+            session.setAttribute("allScore", list);
+        }
+        model.addAttribute("allScore", list);
+        return "admin/updateScore";
+    }
+
+    /**
      * 更新成绩信息
      */
     @RequestMapping("/update")

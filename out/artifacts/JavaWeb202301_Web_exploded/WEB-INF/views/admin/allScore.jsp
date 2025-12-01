@@ -55,7 +55,7 @@
         <td><%=score.getExamType() != null ? score.getExamType() : ""%></td>
         <td><%=score.getFlag() != null ? score.getFlag() : 0%></td>
         <td>
-            <a href="updateScore.jsp?scoreId=<%=score.getScoreId()%>">修改</a> &nbsp; | &nbsp;
+            <a href="${pageContext.request.contextPath}/score/showUpdate?scoreId=<%=score.getScoreId()%>">修改</a> &nbsp; | &nbsp;
             <a href="${pageContext.request.contextPath}/score/delete?scoreId=<%=score.getScoreId()%>"
                onclick="return confirm('确定要删除吗？')">删除</a>
         </td>

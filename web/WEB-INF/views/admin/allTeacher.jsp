@@ -59,7 +59,7 @@
         <td><%=teacher.getTitle() != null ? teacher.getTitle() : ""%></td>
         <td><%=teacher.getFlag() != null ? teacher.getFlag() : 0%></td>
         <td>
-            <a href="updateTeacher.jsp?teacherId=<%=teacher.getTeacherId()%>">修改</a> &nbsp; | &nbsp;
+            <a href="${pageContext.request.contextPath}/teacher/showUpdate?teacherId=<%=teacher.getTeacherId()%>">修改</a> &nbsp; | &nbsp;
             <a href="${pageContext.request.contextPath}/teacher/delete?teacherId=<%=teacher.getTeacherId()%>"
                onclick="return confirm('确定要删除吗？')">删除</a>
         </td>
