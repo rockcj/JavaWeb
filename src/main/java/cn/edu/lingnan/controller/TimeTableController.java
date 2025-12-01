@@ -89,6 +89,22 @@ public class TimeTableController {
     }
 
     /**
+     * 显示编辑课程表页面
+     */
+    @RequestMapping("/showUpdate")
+    @SuppressWarnings("unchecked")
+    public String showUpdate(@RequestParam("timetableId") String timetableId, HttpSession session, Model model) {
+        // 确保session中有allTimeTable列表
+        List<TimeTable> list = (List<TimeTable>) session.getAttribute("allTimeTable");
+        if (list == null) {
+            list = timeTableService.queryAllTimeTables();
+            session.setAttribute("allTimeTable", list);
+        }
+        model.addAttribute("allTimeTable", list);
+        return "admin/updateTimeTable";
+    }
+
+    /**
      * 更新课程表信息
      */
     @RequestMapping("/update")

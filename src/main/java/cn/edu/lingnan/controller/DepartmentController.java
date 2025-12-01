@@ -69,6 +69,22 @@ public class DepartmentController {
     }
 
     /**
+     * 显示编辑院系页面
+     */
+    @RequestMapping("/showUpdate")
+    @SuppressWarnings("unchecked")
+    public String showUpdate(@RequestParam("deptId") String deptId, HttpSession session, Model model) {
+        // 确保session中有allDepartment列表
+        List<Department> list = (List<Department>) session.getAttribute("allDepartment");
+        if (list == null) {
+            list = departmentService.queryAllDepartment();
+            session.setAttribute("allDepartment", list);
+        }
+        model.addAttribute("allDepartment", list);
+        return "admin/updateDepartment";
+    }
+
+    /**
      * 更新院系信息
      */
     @RequestMapping("/update")

@@ -69,6 +69,22 @@ public class CourseController {
     }
 
     /**
+     * 显示编辑课程页面
+     */
+    @RequestMapping("/showUpdate")
+    @SuppressWarnings("unchecked")
+    public String showUpdate(@RequestParam("courseId") String courseId, HttpSession session, Model model) {
+        // 确保session中有allCourse列表
+        List<Course> list = (List<Course>) session.getAttribute("allCourse");
+        if (list == null) {
+            list = courseService.queryAllCourse();
+            session.setAttribute("allCourse", list);
+        }
+        model.addAttribute("allCourse", list);
+        return "admin/updateCourse";
+    }
+
+    /**
      * 更新课程信息
      */
     @RequestMapping("/update")

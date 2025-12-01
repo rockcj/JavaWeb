@@ -61,7 +61,7 @@
         <td><%=department.getUpdateTime() != null ? department.getUpdateTime() : ""%></td>
         <td><%=department.getDflag() != null ? department.getDflag() : 0%></td>
         <td>
-            <a href="updateDepartment.jsp?deptId=<%=department.getDeptId()%>">修改</a> &nbsp; | &nbsp;
+            <a href="${pageContext.request.contextPath}/department/showUpdate?deptId=<%=department.getDeptId()%>">修改</a> &nbsp; | &nbsp;
             <a href="${pageContext.request.contextPath}/department/delete?deptId=<%=department.getDeptId()%>"
                onclick="return confirm('确定要删除吗？')">删除</a>
         </td>

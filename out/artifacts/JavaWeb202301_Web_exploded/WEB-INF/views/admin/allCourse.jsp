@@ -63,7 +63,7 @@
         <td><%=course.getCourseDesc() != null ? (course.getCourseDesc().length() > 20 ? course.getCourseDesc().substring(0, 20) + "..." : course.getCourseDesc()) : ""%></td>
         <td><%=course.getCflag() != null ? course.getCflag() : 0%></td>
         <td>
-            <a href="updateCourse.jsp?courseId=<%=course.getCourseId()%>">修改</a> &nbsp; | &nbsp;
+            <a href="${pageContext.request.contextPath}/course/showUpdate?courseId=<%=course.getCourseId()%>">修改</a> &nbsp; | &nbsp;
             <a href="${pageContext.request.contextPath}/course/delete?courseId=<%=course.getCourseId()%>"
                onclick="return confirm('确定要删除吗？')">删除</a>
         </td>

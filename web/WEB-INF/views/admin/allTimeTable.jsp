@@ -57,7 +57,7 @@
         <td><%=timeTable.getSemester() != null ? timeTable.getSemester() : ""%></td>
         <td><%=timeTable.getFlag() != null ? timeTable.getFlag() : 0%></td>
         <td>
-            <a href="updateTimeTable.jsp?timetableId=<%=timeTable.getTimetableId()%>">修改</a> &nbsp; | &nbsp;
+            <a href="${pageContext.request.contextPath}/timetable/showUpdate?timetableId=<%=timeTable.getTimetableId()%>">修改</a> &nbsp; | &nbsp;
             <a href="${pageContext.request.contextPath}/timetable/delete?timetableId=<%=timeTable.getTimetableId()%>"
                onclick="return confirm('确定要删除吗？')">删除</a>
         </td>
