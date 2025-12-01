@@ -12,7 +12,8 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/details")
+// 已迁移到 LoginController，此Servlet已废弃
+// @WebServlet("/details")
 public class details extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

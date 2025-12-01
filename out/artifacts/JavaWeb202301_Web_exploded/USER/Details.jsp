@@ -11,10 +11,12 @@
 <h1>岭南师范学院学生管理系统个人信息</h1>
 欢迎您：${user}&nbsp;先生/女士
 <br><br>
-<a href="/login">退出</a>
-<a href="/loginout">用户注销</a>
-<a href="/oneStu">查询个人信息</a>
-<a href="/details">查询详细信息</a>
+<a href="${pageContext.request.contextPath}/login">退出</a>
+<a href="${pageContext.request.contextPath}/loginout">用户注销</a>
+<a href="${pageContext.request.contextPath}/oneStu">查询个人信息</a>
+<a href="${pageContext.request.contextPath}/details">查询详细信息</a>
+<a href="${pageContext.request.contextPath}/user/myScores">查询我的成绩</a>
+<a href="${pageContext.request.contextPath}/user/myTimeTable">查询我的课程表</a>
 <hr>
 <table>
     <tr>

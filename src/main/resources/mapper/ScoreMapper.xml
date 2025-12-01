@@ -18,7 +18,6 @@
         <association property="student" javaType="cn.edu.lingnan.pojo.Student">
             <id property="sid" column="sid"/>
             <result property="sname" column="sname"/>
-            <result property="sage" column="sage"/>
         </association>
         <association property="course" javaType="cn.edu.lingnan.pojo.Course">
             <id property="courseId" column="course_id"/>
@@ -44,7 +43,7 @@
     <!-- 根据学生ID查询成绩 -->
     <select id="queryScoresByStudentId" parameterType="String" resultMap="ScoreWithStudentAndCourseResultMap">
         SELECT s.score_id, s.student_id, s.course_id, s.score, s.semester, s.exam_type, s.flag,
-               st.sid, st.sname, st.sage,
+               st.sid, st.sname,
                c.course_id as c_course_id, c.course_name, c.credit
         FROM score s
         LEFT JOIN student st ON s.student_id = st.sid
@@ -55,7 +54,7 @@
     <!-- 根据课程ID查询成绩 -->
     <select id="queryScoresByCourseId" parameterType="String" resultMap="ScoreWithStudentAndCourseResultMap">
         SELECT s.score_id, s.student_id, s.course_id, s.score, s.semester, s.exam_type, s.flag,
-               st.sid, st.sname, st.sage,
+               st.sid, st.sname,
                c.course_id as c_course_id, c.course_name, c.credit
         FROM score s
         LEFT JOIN student st ON s.student_id = st.sid
@@ -73,7 +72,7 @@
     <!-- 根据条件查询成绩 -->
     <select id="queryScoresByCondition" parameterType="map" resultMap="ScoreWithStudentAndCourseResultMap">
         SELECT s.score_id, s.student_id, s.course_id, s.score, s.semester, s.exam_type, s.flag,
-               st.sid, st.sname, st.sage,
+               st.sid, st.sname,
                c.course_id as c_course_id, c.course_name, c.credit
         FROM score s
         LEFT JOIN student st ON s.student_id = st.sid

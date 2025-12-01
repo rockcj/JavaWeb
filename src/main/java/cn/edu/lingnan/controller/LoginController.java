@@ -1,6 +1,8 @@
 package cn.edu.lingnan.controller;
 
+import cn.edu.lingnan.Dto.JobDto;
 import cn.edu.lingnan.pojo.Student;
+import cn.edu.lingnan.service.JobService;
 import cn.edu.lingnan.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,24 @@ public class LoginController {
     
     @Autowired
     private StudentService studentService;
+    
+    @Autowired
+    private JobService jobService;
 
     /**
-     * 登录处理
+     * 显示登录页面（GET 请求）
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String showLogin() {
+        // 重定向到登录页面
+        return "redirect:/Login.html";
+    }
+    
+    /**
+     * 登录处理（POST 请求）
      * 对应原：LoginServlet
      */
-    @RequestMapping(value = {"/login", "/error"}, method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = {"/login", "/error"}, method = RequestMethod.POST)
     public String login(@RequestParam("username") String username,
                        @RequestParam("password") String password,
                        HttpSession session) {
@@ -45,7 +59,7 @@ public class LoginController {
                 return "redirect:/main.jsp";
             } else {
                 session.setAttribute("sid", stu.getSid());
-                return "redirect:/student/one";
+                return "redirect:/oneStu";  // 跳转到 /oneStu，由 LoginController 的 queryOneStu 方法处理
             }
         } else {
             System.out.println("登录失败");
@@ -125,6 +139,31 @@ public class LoginController {
                 } else {
                     System.out.println("未查询到学生信息");
                 }
+            } else {
+                System.out.println("Session中没有sid");
+            }
+        } else {
+            System.out.println("Session为null");
+        }
+        System.out.println("跳转到登录页面");
+        return "redirect:/Login.html";
+    }
+    
+    /**
+     * 查询学生详细信息（职位信息）
+     * 对应原：details Servlet
+     */
+    @RequestMapping(value = "/details", method = {RequestMethod.GET, RequestMethod.POST})
+    public String queryDetails(HttpSession session, Model model) {
+        System.out.println("LoginController.queryDetails 被调用");
+        if (session != null) {
+            String sid = (String) session.getAttribute("sid");
+            System.out.println("Session中的sid: " + sid);
+            if (sid != null) {
+                List<JobDto> list = jobService.queryJobDtoStuBySid(sid);
+                session.setAttribute("StuJobDto", list);
+                System.out.println("查询到职位信息，共 " + (list != null ? list.size() : 0) + " 条记录");
+                return "redirect:/USER/Details.jsp";
             } else {
                 System.out.println("Session中没有sid");
             }
