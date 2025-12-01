@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ItemController - 项目/课程项管理控制器
@@ -39,7 +41,8 @@ public class ItemController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertItem(@RequestBody String jsonData) {
+    public Map<String, Object> insertItem(@RequestBody String jsonData) {
+        Map<String, Object> result = new HashMap<>();
         try {
             ObjectMapper mapper = new ObjectMapper();
             List<Item> items = mapper.readValue(jsonData,
@@ -47,9 +50,12 @@ public class ItemController {
             for (Item item : items) {
                 itemService.insertItem(item);
             }
-            return "{\"status\":\"success\"}";
+            result.put("status", "success");
+            return result;
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
+            return result;
         }
     }
 

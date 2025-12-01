@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TimeTableController - 课程表管理控制器
@@ -75,17 +77,21 @@ public class TimeTableController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertTimeTable(@ModelAttribute TimeTable timeTable) {
+    public Map<String, Object> insertTimeTable(@ModelAttribute TimeTable timeTable) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            int result = timeTableService.insertTimeTable(timeTable);
-            if (result > 0) {
-                return "{\"status\":\"success\"}";
+            int insertResult = timeTableService.insertTimeTable(timeTable);
+            if (insertResult > 0) {
+                result.put("status", "success");
             } else {
-                return "{\"status\":\"error\",\"message\":\"插入失败\"}";
+                result.put("status", "error");
+                result.put("message", "插入失败");
             }
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     /**

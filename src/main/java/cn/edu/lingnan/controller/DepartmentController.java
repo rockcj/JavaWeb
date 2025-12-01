@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DepartmentController - 院系管理控制器
@@ -55,17 +57,21 @@ public class DepartmentController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     @ResponseBody
-    public String insertDepartment(@ModelAttribute Department department) {
+    public Map<String, Object> insertDepartment(@ModelAttribute Department department) {
+        Map<String, Object> result = new HashMap<>();
         try {
-            int result = departmentService.insertDepartment(department);
-            if (result > 0) {
-                return "{\"status\":\"success\"}";
+            int insertResult = departmentService.insertDepartment(department);
+            if (insertResult > 0) {
+                result.put("status", "success");
             } else {
-                return "{\"status\":\"error\",\"message\":\"插入失败\"}";
+                result.put("status", "error");
+                result.put("message", "插入失败");
             }
         } catch (Exception e) {
-            return "{\"status\":\"error\",\"message\":\"" + e.getMessage() + "\"}";
+            result.put("status", "error");
+            result.put("message", e.getMessage());
         }
+        return result;
     }
 
     /**

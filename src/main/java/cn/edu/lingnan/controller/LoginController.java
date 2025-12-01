@@ -105,5 +105,34 @@ public class LoginController {
         // 重定向到登录页面
         return "redirect:/Login.html";
     }
+    
+    /**
+     * 查询单个学生信息（兼容旧路径 /oneStu）
+     * 对应原：OneStudent Servlet
+     */
+    @RequestMapping(value = "/oneStu", method = {RequestMethod.GET, RequestMethod.POST})
+    public String queryOneStu(HttpSession session, Model model) {
+        System.out.println("LoginController.queryOneStu 被调用");
+        if (session != null) {
+            String sid = (String) session.getAttribute("sid");
+            System.out.println("Session中的sid: " + sid);
+            if (sid != null) {
+                Student stu = studentService.queryStudentById(sid);
+                if (stu != null) {
+                    session.setAttribute("stu", stu);
+                    System.out.println("查询到学生信息，跳转到个人信息页面");
+                    return "redirect:/USER/Stu.jsp";
+                } else {
+                    System.out.println("未查询到学生信息");
+                }
+            } else {
+                System.out.println("Session中没有sid");
+            }
+        } else {
+            System.out.println("Session为null");
+        }
+        System.out.println("跳转到登录页面");
+        return "redirect:/Login.html";
+    }
 }
 
