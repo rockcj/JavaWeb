@@ -12,7 +12,8 @@ public interface DepartmentMapper {
      * 查询所有院系记录
      * @return 院系对象列表
      */
-    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag FROM department")
+    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag " +
+            "FROM department WHERE COALESCE(dflag, 0) = 0")
     List<Department> queryAllDepartment();
 
     /**
@@ -20,7 +21,8 @@ public interface DepartmentMapper {
      * @param deptId 院系ID
      * @return Department对象
      */
-    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag FROM department WHERE dept_id = #{deptId}")
+    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag " +
+            "FROM department WHERE dept_id = #{deptId} AND COALESCE(dflag, 0) = 0")
     Department queryDepartmentById(@Param("deptId") String deptId);
 
     /**
@@ -28,7 +30,8 @@ public interface DepartmentMapper {
      * @param deptName 院系名称（支持模糊匹配）
      * @return 院系对象列表
      */
-    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag FROM department WHERE dept_name LIKE CONCAT('%', #{deptName}, '%')")
+    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag " +
+            "FROM department WHERE dept_name LIKE CONCAT('%', #{deptName}, '%') AND COALESCE(dflag, 0) = 0")
     List<Department> queryDepartmentByName(@Param("deptName") String deptName);
 
     /**
@@ -36,7 +39,8 @@ public interface DepartmentMapper {
      * @param deptCode 院系编码
      * @return Department对象
      */
-    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag FROM department WHERE dept_code = #{deptCode}")
+    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag " +
+            "FROM department WHERE dept_code = #{deptCode} AND COALESCE(dflag, 0) = 0")
     Department queryDepartmentByCode(@Param("deptCode") String deptCode);
 
     /**
@@ -76,6 +80,7 @@ public interface DepartmentMapper {
      * @param dflag 状态标志
      * @return 院系对象列表
      */
-    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag FROM department WHERE dflag = #{dflag}")
+    @Select("SELECT dept_id, dept_name, dept_code, dept_head, dept_phone, dept_email, dept_desc, create_time, update_time, dflag " +
+            "FROM department WHERE COALESCE(dflag, 0) = #{dflag}")
     List<Department> queryDepartmentByFlag(@Param("dflag") Integer dflag);
 }

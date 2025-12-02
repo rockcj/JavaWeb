@@ -2,7 +2,8 @@
 <datasource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:noNamespaceSchemaLocation="database.conf.xsd">
    <driver>com.mysql.cj.jdbc.Driver</driver>
-    <url>jdbc:mysql://localhost:3306/school?useSSL=true&amp;trustServerCertificate=true&amp;serverTimeZone=UTC</url>
+    <!-- 允许JDBC拉取MySQL 8公钥并统一时区避免握手异常 -->
+    <url>jdbc:mysql://localhost:3306/school?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=UTF-8</url>
     <user>root</user>
     <password>123456</password>
 </datasource>

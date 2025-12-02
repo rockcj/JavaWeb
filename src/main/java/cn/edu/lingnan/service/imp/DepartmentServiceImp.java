@@ -59,6 +59,11 @@ public class DepartmentServiceImp implements DepartmentService {
         try {
             DepartmentMapper departmentMapper = sqlSession.getMapper(DepartmentMapper.class);
 
+            // 新增数据默认启用状态，避免dflag为null导致查询被过滤
+            if (department.getDflag() == null) {
+                department.setDflag(0);
+            }
+
             // 检查院系是否已存在
             Department existingDept = departmentMapper.queryDepartmentById(department.getDeptId());
             if (existingDept != null) {
@@ -127,6 +132,10 @@ public class DepartmentServiceImp implements DepartmentService {
         var sqlSession = MyBatisUtil.getSqlSession();
         try {
             DepartmentMapper departmentMapper = sqlSession.getMapper(DepartmentMapper.class);
+
+            if (department.getDflag() == null) {
+                department.setDflag(0);
+            }
 
             // 先查询院系是否存在
             Department existingDept = departmentMapper.queryDepartmentById(department.getDeptId());

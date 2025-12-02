@@ -19,56 +19,56 @@
     <select id="queryAllTimeTables" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE tflag = 0
+        WHERE COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据ID查询课表 -->
     <select id="queryTimeTableById" parameterType="String" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE timetable_id = #{timetableId} AND tflag = 0
+        WHERE timetable_id = #{timetableId} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据课程ID查询课表 -->
     <select id="queryTimeTableByCourseId" parameterType="String" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE course_id = #{courseId} AND tflag = 0
+        WHERE course_id = #{courseId} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据教师ID查询课表 -->
     <select id="queryTimeTableByTeacherId" parameterType="String" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE teacher_id = #{teacherId} AND tflag = 0
+        WHERE teacher_id = #{teacherId} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据教室ID查询课表 -->
     <select id="queryTimeTableByClassroomId" parameterType="String" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE classroom_id = #{classroomId} AND tflag = 0
+        WHERE classroom_id = #{classroomId} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据学期查询课表 -->
     <select id="queryTimeTableBySemester" parameterType="String" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE semester = #{semester} AND tflag = 0
+        WHERE semester = #{semester} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据教师ID和学期查询课表 -->
     <select id="queryTimeTableByTeacherAndSemester" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE teacher_id = #{teacherId} AND semester = #{semester} AND tflag = 0
+        WHERE teacher_id = #{teacherId} AND semester = #{semester} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据条件查询课表 -->
     <select id="queryTimeTableByCondition" parameterType="map" resultMap="TimeTableResultMap">
         SELECT timetable_id, course_id, teacher_id, classroom_id, day_of_week, time_slot, semester, tflag
         FROM timetable
-        WHERE tflag = 0
+        WHERE COALESCE(tflag, 0) = 0
         <if test="courseId != null and courseId != ''">
             AND course_id = #{courseId}
         </if>
@@ -116,7 +116,7 @@
     <update id="deleteTimeTableByCondition" parameterType="map">
         UPDATE timetable
         SET tflag = 1
-        WHERE tflag = 0
+        WHERE COALESCE(tflag, 0) = 0
         <if test="courseId != null and courseId != ''">
             AND course_id = #{courseId}
         </if>
@@ -136,7 +136,7 @@
           AND day_of_week = #{dayOfWeek}
           AND time_slot = #{timeSlot}
           AND semester = #{semester}
-          AND tflag = 0
+          AND COALESCE(tflag, 0) = 0
     </select>
 
 </mapper>

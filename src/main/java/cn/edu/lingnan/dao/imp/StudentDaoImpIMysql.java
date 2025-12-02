@@ -56,7 +56,7 @@ public class StudentDaoImpIMysql implements StudentDao {
             String sql = "select * from student";
             if(log == 0)
             {
-                sql = sql+" where stflag = 0";
+                sql = sql+" where COALESCE(stflag, 0) = 0";
             } else if (log == 1) {
                 sql = sql+" where stflag = 1";
             }

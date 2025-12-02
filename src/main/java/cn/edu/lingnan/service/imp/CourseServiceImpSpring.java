@@ -58,6 +58,10 @@ public class CourseServiceImpSpring extends SqlSessionDaoSupport implements Cour
     @Override
     public int insertCourse(Course course) {
         try {
+            // 保障课程状态默认有效，避免cflag为null导致查询过滤
+            if (course.getCflag() == null) {
+                course.setCflag(0);
+            }
             CourseMapper courseMapper = getSqlSession().getMapper(CourseMapper.class);
 
             // 检查课程是否已存在
@@ -124,6 +128,10 @@ public class CourseServiceImpSpring extends SqlSessionDaoSupport implements Cour
     @Override
     public int updateCourse(Course course) {
         try {
+            // 更新前补齐cflag，防止写回null再次影响查询
+            if (course.getCflag() == null) {
+                course.setCflag(0);
+            }
             CourseMapper courseMapper = getSqlSession().getMapper(CourseMapper.class);
 
             // 先查询课程是否存在

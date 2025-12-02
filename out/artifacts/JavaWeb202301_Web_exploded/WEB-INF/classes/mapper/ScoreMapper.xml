@@ -30,14 +30,14 @@
     <select id="queryAllScores" resultMap="ScoreResultMap">
         SELECT score_id, student_id, course_id, score, semester, exam_type, flag
         FROM score
-        WHERE flag = 0
+        WHERE COALESCE(flag, 0) = 0
     </select>
 
     <!-- 根据ID查询成绩 -->
     <select id="queryScoreById" parameterType="String" resultMap="ScoreResultMap">
         SELECT score_id, student_id, course_id, score, semester, exam_type, flag
         FROM score
-        WHERE score_id = #{scoreId} AND flag = 0
+        WHERE score_id = #{scoreId} AND COALESCE(flag, 0) = 0
     </select>
 
     <!-- 根据学生ID查询成绩 -->
@@ -48,7 +48,7 @@
         FROM score s
         LEFT JOIN student st ON s.student_id = st.sid
         LEFT JOIN course c ON s.course_id = c.course_id
-        WHERE s.student_id = #{studentId} AND s.flag = 0
+        WHERE s.student_id = #{studentId} AND COALESCE(s.flag, 0) = 0
     </select>
 
     <!-- 根据课程ID查询成绩 -->
@@ -59,14 +59,14 @@
         FROM score s
         LEFT JOIN student st ON s.student_id = st.sid
         LEFT JOIN course c ON s.course_id = c.course_id
-        WHERE s.course_id = #{courseId} AND s.flag = 0
+        WHERE s.course_id = #{courseId} AND COALESCE(s.flag, 0) = 0
     </select>
 
     <!-- 根据学生ID和课程ID查询成绩 -->
     <select id="queryScoreByStudentAndCourse" resultMap="ScoreResultMap">
         SELECT score_id, student_id, course_id, score, semester, exam_type, flag
         FROM score
-        WHERE student_id = #{studentId} AND course_id = #{courseId} AND flag = 0
+        WHERE student_id = #{studentId} AND course_id = #{courseId} AND COALESCE(flag, 0) = 0
     </select>
 
     <!-- 根据条件查询成绩 -->
@@ -77,7 +77,7 @@
         FROM score s
         LEFT JOIN student st ON s.student_id = st.sid
         LEFT JOIN course c ON s.course_id = c.course_id
-        WHERE s.flag = 0
+        WHERE COALESCE(s.flag, 0) = 0
         <if test="studentId != null and studentId != ''">
             AND s.student_id = #{studentId}
         </if>
@@ -126,7 +126,7 @@
     <update id="deleteScoreByCondition" parameterType="map">
         UPDATE score
         SET flag = 1
-        WHERE flag = 0
+        WHERE COALESCE(flag, 0) = 0
         <if test="studentId != null and studentId != ''">
             AND student_id = #{studentId}
         </if>

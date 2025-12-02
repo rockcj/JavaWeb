@@ -96,7 +96,7 @@ public interface StudentMapper {
     class StudentSqlProvider {
         public String queryAllStudentAllSql(int log) {
             if (log == 0) {
-                return "SELECT * FROM student WHERE stflag = 0";
+                return "SELECT * FROM student WHERE COALESCE(stflag, 0) = 0";
             } else if (log == 1) {
                 return "SELECT * FROM student WHERE stflag = 1";
             } else {

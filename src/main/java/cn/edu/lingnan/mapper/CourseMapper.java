@@ -99,7 +99,8 @@ public interface CourseMapper {
      * @param cflag 状态标志
      * @return 课程对象列表
      */
-    @Select("SELECT course_id, course_name, course_code, dept_id, credit, course_hours, course_type, teacher_name, semester, course_desc, create_time, update_time, cflag FROM course WHERE cflag = #{cflag}")
+    @Select("SELECT course_id, course_name, course_code, dept_id, credit, course_hours, course_type, teacher_name, semester, course_desc, create_time, update_time, cflag " +
+            "FROM course WHERE COALESCE(cflag, 0) = #{cflag}")
     List<Course> queryCourseByFlag(@Param("cflag") Integer cflag);
 
     /**

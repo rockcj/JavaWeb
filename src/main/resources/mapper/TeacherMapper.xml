@@ -20,35 +20,35 @@
     <select id="queryAllTeachers" resultMap="TeacherResultMap">
         SELECT teacher_id, teacher_name, gender, age, phone, email, dept_id, title, tflag
         FROM teacher
-        WHERE tflag = 0
+        WHERE COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据ID查询教师 -->
     <select id="queryTeacherById" parameterType="String" resultMap="TeacherResultMap">
         SELECT teacher_id, teacher_name, gender, age, phone, email, dept_id, title, tflag
         FROM teacher
-        WHERE teacher_id = #{teacherId} AND tflag = 0
+        WHERE teacher_id = #{teacherId} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据姓名查询教师 -->
     <select id="queryTeacherByName" parameterType="String" resultMap="TeacherResultMap">
         SELECT teacher_id, teacher_name, gender, age, phone, email, dept_id, title, tflag
         FROM teacher
-        WHERE teacher_name LIKE CONCAT('%', #{teacherName}, '%') AND tflag = 0
+        WHERE teacher_name LIKE CONCAT('%', #{teacherName}, '%') AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据院系ID查询教师 -->
     <select id="queryTeachersByDeptId" parameterType="String" resultMap="TeacherResultMap">
         SELECT teacher_id, teacher_name, gender, age, phone, email, dept_id, title, tflag
         FROM teacher
-        WHERE dept_id = #{deptId} AND tflag = 0
+        WHERE dept_id = #{deptId} AND COALESCE(tflag, 0) = 0
     </select>
 
     <!-- 根据条件查询教师 -->
     <select id="queryTeacherByCondition" parameterType="map" resultMap="TeacherResultMap">
         SELECT teacher_id, teacher_name, gender, age, phone, email, dept_id, title, tflag
         FROM teacher
-        WHERE tflag = 0
+        WHERE COALESCE(tflag, 0) = 0
         <if test="teacherName != null and teacherName != ''">
             AND teacher_name LIKE CONCAT('%', #{teacherName}, '%')
         </if>
@@ -94,7 +94,7 @@
     <update id="deleteTeacherByCondition" parameterType="map">
         UPDATE teacher
         SET tflag = 1
-        WHERE tflag = 0
+        WHERE COALESCE(tflag, 0) = 0
         <if test="deptId != null and deptId != ''">
             AND dept_id = #{deptId}
         </if>

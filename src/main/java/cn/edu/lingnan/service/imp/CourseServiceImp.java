@@ -91,6 +91,10 @@ public class CourseServiceImp implements CourseService {
     public int insertCourse(Course course) {
         var sqlSession = MyBatisUtil.getSqlSession();
         try {
+            // 统一将cflag默认设置为0，避免插入null后被前端查询过滤
+            if (course.getCflag() == null) {
+                course.setCflag(0);
+            }
             CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
             DepartmentMapper departmentMapper = sqlSession.getMapper(DepartmentMapper.class);
 
@@ -170,6 +174,10 @@ public class CourseServiceImp implements CourseService {
     public int updateCourse(Course course) {
         var sqlSession = MyBatisUtil.getSqlSession();
         try {
+            // 更新操作同样补齐cflag，确保状态字段不被写成null
+            if (course.getCflag() == null) {
+                course.setCflag(0);
+            }
             CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
             DepartmentMapper departmentMapper = sqlSession.getMapper(DepartmentMapper.class);
 

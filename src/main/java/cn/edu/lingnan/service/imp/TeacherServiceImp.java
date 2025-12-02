@@ -47,6 +47,10 @@ public class TeacherServiceImp extends SqlSessionDaoSupport implements TeacherSe
 
     @Override
     public int insertTeacher(Teacher teacher) {
+        // 防止tflag为空导致查询过滤，默认0表示有效教师
+        if (teacher.getFlag() == null) {
+            teacher.setFlag(0);
+        }
         return getSqlSession().getMapper(TeacherMapper.class).insertTeacher(teacher);
     }
 
