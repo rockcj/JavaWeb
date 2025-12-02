@@ -62,6 +62,10 @@ public class TimeTableServiceImp extends SqlSessionDaoSupport implements TimeTab
 
     @Override
     public int insertTimeTable(TimeTable timeTable) {
+        // 防止flag为空导致查询过滤，默认0表示有效数据
+        if (timeTable.getFlag() == null) {
+            timeTable.setFlag(0);
+        }
         return getSqlSession().getMapper(TimeTableMapper.class).insertTimeTable(timeTable);
     }
 
