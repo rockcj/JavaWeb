@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,10 +73,29 @@ public class DepartmentController {
             ObjectMapper mapper = new ObjectMapper();
             List<Department> departments = mapper.readValue(jsonData,
                     mapper.getTypeFactory().constructCollectionType(List.class, Department.class));
+            int successCount = 0;
+            List<String> failedMessages = new ArrayList<>();
             for (Department department : departments) {
-                departmentService.insertDepartment(department);
+                int affected = departmentService.insertDepartment(department);
+                if (affected > 0) {
+                    successCount += affected;
+                } else {
+                    // 中文提示失败原因，方便前端弹窗展示
+                    failedMessages.add(String.format("院系[%s/%s]插入失败，可能因为ID或编码重复",
+                            department.getDeptName(), department.getDeptCode()));
+                }
             }
-            result.put("status", "success");
+            if (failedMessages.isEmpty()) {
+                result.put("status", "success");
+                result.put("message", "成功新增" + successCount + "条院系记录");
+            } else if (successCount > 0) {
+                result.put("status", "partial");
+                result.put("message", "成功" + successCount + "条，失败"
+                        + failedMessages.size() + "条：" + String.join("；", failedMessages));
+            } else {
+                result.put("status", "error");
+                result.put("message", String.join("；", failedMessages));
+            }
             return result;
         } catch (Exception e) {
             result.put("status", "error");

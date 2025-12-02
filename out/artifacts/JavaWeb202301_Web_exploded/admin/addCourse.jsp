@@ -1,49 +1,74 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/list.css">
-    <title>添加课程信息</title>
+    <meta charset="UTF-8">
+    <title>添加课程 - 岭南师范学院学生管理系统</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tech-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="../js/check.js"></script>
 </head>
 <body>
-<h1>岭南师范学院学生管理系统———添加课程信息</h1>
-欢迎您：${user}&nbsp;先生/女士
-<br><br>
-<a href="${pageContext.request.contextPath}/login">退出</a>
-<a href="${pageContext.request.contextPath}/loginout">用户注销</a>
-<a href="${pageContext.request.contextPath}/student/queryAll">查询学生信息</a>
-<a href="${pageContext.request.contextPath}/item/queryAll">查询项目信息</a>
-<a href="${pageContext.request.contextPath}/job/queryAll">查询职位信息</a>
-<a href="${pageContext.request.contextPath}/course/queryAll">查询课程信息</a>
-<a href="${pageContext.request.contextPath}/department/queryAll">查询院系信息</a>
-<a href="${pageContext.request.contextPath}/score/queryAll">查询成绩信息</a>
-<a href="${pageContext.request.contextPath}/teacher/queryAll">查询教师信息</a>
-<a href="${pageContext.request.contextPath}/timetable/queryAll">查询课程表信息</a>
-<hr>
-<form >
-    <table id="itemTable">
-        <thead>
-        <tr>
-            <th>课程ID</th>
-            <th>课程名称</th>
-            <th>课程编码</th>
-            <th>所属院系ID</th>
-            <th>学分</th>
-            <th>学时</th>
-            <th>课程类型</th>
-            <th>任课教师</th>
-            <th>学期</th>
-            <th>课程描述</th>
-        </tr>
-        </thead>
-        <tbody id="TableBody">
-        </tbody>
-    </table>
-    <button type="button" class="add-row-btn" onclick="addCourseRow()">+ 添加空白行</button>
-    <br><br>
-    <button type="submit" class="submit-btn" onclick="insertCourse(event)">提交</button>
-</form>
-<!-- 将脚本移到页面底部，避免阻塞页面渲染，使用更快的CDN -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="../js/check.js"></script>
+
+    <!-- 引入侧边栏 -->
+    <jsp:include page="sidebar.jsp"/>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>新增课程</h1>
+            <a href="${pageContext.request.contextPath}/course/queryAll" class="btn btn-primary btn-sm">← 返回列表</a>
+        </div>
+
+        <div class="form-panel">
+            <div style="margin-bottom: 20px; color: var(--text-secondary);">
+                💡 提示：点击“添加空白行”可一次性录入多条数据，确认无误后点击“提交保存”。
+            </div>
+
+            <form>
+                <div class="table-container" style="margin-top: 0; margin-bottom: 30px;">
+                    <table class="tech-table" id="itemTable">
+                        <thead>
+                            <tr>
+                                <th>课程ID <span style="color: var(--danger);">*</span></th>
+                                <th>课程名称 <span style="color: var(--danger);">*</span></th>
+                                <th>课程代码 <span style="color: var(--danger);">*</span></th>
+                                <th>所属院系</th>
+                                <th>学分</th>
+                                <th>学时</th>
+                                <th>类型</th>
+                                <th>授课教师</th>
+                                <th>学期</th>
+                                <th>描述</th>
+                            </tr>
+                        </thead>
+                        <tbody id="TableBody">
+                            <!-- 默认显示一行 -->
+                            <tr>
+                                <td><input type='text' name='courseId' placeholder="如: C001"></td>
+                                <td><input type='text' name='courseName' placeholder="课程名"></td>
+                                <td><input type='text' name='courseCode' placeholder="代码"></td>
+                                <td><input type='text' name='deptId' placeholder="院系ID"></td>
+                                <td><input type='number' name='credit' placeholder="学分"></td>
+                                <td><input type='number' name='courseHours' placeholder="学时"></td>
+                                <td><input type='text' name='courseType' placeholder="类型"></td>
+                                <td><input type='text' name='teacherName' placeholder="教师名"></td>
+                                <td><input type='text' name='semester' placeholder="学期"></td>
+                                <td><input type='text' name='courseDesc' placeholder="描述"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <button type="button" class="btn btn-primary" onclick="addCourseRow()">
+                        <span style="font-size: 1.2rem;">+</span> 添加空白行
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="background: var(--accent-color); color: #000;" onclick="insertCourse(event)">
+                        💾 提交保存
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
-

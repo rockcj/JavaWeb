@@ -1,44 +1,66 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/list.css">
-    <title>添加成绩信息</title>
+    <meta charset="UTF-8">
+    <title>添加成绩 - 岭南师范学院学生管理系统</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tech-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="../js/check.js"></script>
 </head>
 <body>
-<h1>岭南师范学院学生管理系统———添加成绩信息</h1>
-欢迎您：${user}&nbsp;先生/女士
-<br><br>
-<a href="${pageContext.request.contextPath}/login">退出</a>
-<a href="${pageContext.request.contextPath}/loginout">用户注销</a>
-<a href="${pageContext.request.contextPath}/student/queryAll">查询学生信息</a>
-<a href="${pageContext.request.contextPath}/item/queryAll">查询项目信息</a>
-<a href="${pageContext.request.contextPath}/job/queryAll">查询职位信息</a>
-<a href="${pageContext.request.contextPath}/course/queryAll">查询课程信息</a>
-<a href="${pageContext.request.contextPath}/department/queryAll">查询院系信息</a>
-<a href="${pageContext.request.contextPath}/score/queryAll">查询成绩信息</a>
-<a href="${pageContext.request.contextPath}/teacher/queryAll">查询教师信息</a>
-<a href="${pageContext.request.contextPath}/timetable/queryAll">查询课程表信息</a>
-<hr>
-<form >
-    <table id="itemTable">
-        <thead>
-        <tr>
-            <th>成绩ID</th>
-            <th>学生ID</th>
-            <th>课程ID</th>
-            <th>成绩</th>
-            <th>学期</th>
-            <th>考试类型</th>
-        </tr>
-        </thead>
-        <tbody id="TableBody">
-        </tbody>
-    </table>
-    <button type="button" class="add-row-btn" onclick="addScoreRow()">+ 添加空白行</button>
-    <br><br>
-    <button type="submit" class="submit-btn" onclick="insertScore(event)">提交</button>
-</form>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="../js/check.js"></script>
+
+    <!-- 引入侧边栏 -->
+    <jsp:include page="sidebar.jsp"/>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>新增成绩</h1>
+            <a href="${pageContext.request.contextPath}/score/queryAll" class="btn btn-primary btn-sm">← 返回列表</a>
+        </div>
+
+        <div class="form-panel">
+            <div style="margin-bottom: 20px; color: var(--text-secondary);">
+                💡 提示：点击“添加空白行”可一次性录入多条数据，确认无误后点击“提交保存”。
+            </div>
+
+            <form>
+                <div class="table-container" style="margin-top: 0; margin-bottom: 30px;">
+                    <table class="tech-table" id="itemTable">
+                        <thead>
+                            <tr>
+                                <th>成绩ID <span style="color: var(--danger);">*</span></th>
+                                <th>学生学号 <span style="color: var(--danger);">*</span></th>
+                                <th>课程ID <span style="color: var(--danger);">*</span></th>
+                                <th>分数</th>
+                                <th>学期</th>
+                                <th>考试类型</th>
+                            </tr>
+                        </thead>
+                        <tbody id="TableBody">
+                            <!-- 默认显示一行 -->
+                            <tr>
+                                <td><input type='text' name='scoreId' placeholder="如: S001"></td>
+                                <td><input type='text' name='studentId' placeholder="学号"></td>
+                                <td><input type='text' name='courseId' placeholder="课程ID"></td>
+                                <td><input type='number' name='score' placeholder="分数"></td>
+                                <td><input type='text' name='semester' placeholder="学期"></td>
+                                <td><input type='text' name='examType' placeholder="如: 期末"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <button type="button" class="btn btn-primary" onclick="addScoreRow()">
+                        <span style="font-size: 1.2rem;">+</span> 添加空白行
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="background: var(--accent-color); color: #000;" onclick="insertScore(event)">
+                        💾 提交保存
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
-

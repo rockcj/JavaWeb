@@ -12,7 +12,7 @@
 <body>
 
     <!-- 引入侧边栏 -->
-    <jsp:include page="/admin/sidebar.jsp"/>
+    <jsp:include page="sidebar.jsp"/>
 
     <div class="main-content">
         <div class="page-header">
@@ -63,10 +63,9 @@
                         <td><%=s.getCourseId() != null ? s.getCourseId() : ""%></td>
                         <td>
                             <% 
-                                // 将成绩对象拆分成字符串表现和数值，便于展示与判断
-                                Double scoreValue = s.getScore();
-                                double scoreVal = scoreValue != null ? scoreValue : 0;
-                                String scoreStr = scoreValue != null ? String.valueOf(scoreValue) : "0";
+                                String scoreStr = s.getScore() != null ? s.getScore() : "0";
+                                double scoreVal = 0;
+                                try { scoreVal = Double.parseDouble(scoreStr); } catch(Exception e) {}
                                 if(scoreVal < 60) { 
                             %>
                                 <span style="color: var(--danger); font-weight: bold;"><%=scoreStr%></span>

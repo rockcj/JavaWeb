@@ -18,7 +18,8 @@
             <!-- 数据源类型：POOLED -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/school?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=UTF-8"/>
+                <!-- 与Spring数据源保持一致，开启公钥拉取并指定本地时区 -->
+                <property name="url" value="jdbc:mysql://localhost:3306/school?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=UTF-8"/>
                 <property name="username" value="root"/>
                 <property name="password" value="123456"/>
             </dataSource>

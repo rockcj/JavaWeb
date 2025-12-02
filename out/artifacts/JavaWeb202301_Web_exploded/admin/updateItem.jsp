@@ -1,52 +1,80 @@
-<%@ page import="cn.edu.lingnan.pojo.Student" %>
-<%@ page import="java.util.List" %>
 <%@ page import="cn.edu.lingnan.pojo.Item" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/list.css">
-    <title>编辑项目表</title>
+    <meta charset="UTF-8">
+    <title>修改项目 - 岭南师范学院学生管理系统</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/tech-style.css">
 </head>
 <body>
-<h1>岭南师范学院学生管理系统———学生管理模块</h1>
-欢迎您：${user}&nbsp;先生/女士
-<br><br>
-<a href="../login">退出</a>
-<a href="../loginout">用户注销</a>
-<a href="../item/queryAll">查询项目信息</a>
-<hr>
 
-<form  action="../item/update">
-    <table>
-        <tr>
-            <th>项目id</th>
-            <th>项目名称</th>
-            <th>项目权限</th>
-            <th>操作选择</th>
-        </tr>
+    <!-- 引入侧边栏 -->
+    <jsp:include page="sidebar.jsp"/>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h1>修改项目信息</h1>
+            <a href="${pageContext.request.contextPath}/item/queryAll" class="btn btn-primary btn-sm">← 返回列表</a>
+        </div>
+
         <%
-            Object allItem = session.getAttribute("allItem");
             String iid = request.getParameter("iid");
-        %>
-        <%
-            if(allItem !=null){
+            Item targetItem = null;
+            Object allItem = session.getAttribute("allItem");
+            if(allItem == null) {
+                allItem = request.getAttribute("allItem");
+            }
+            if(allItem != null && iid != null){
                 List<Item> list = (List<Item>) allItem;
-                if(list!=null)
-                {
-                    for(Item item : list) {
-                        if(item.getIid().equals(iid)){%>
-        <tr>
-            <td><input type="hidden" name="iid" value="<%=item.getIid()%>"><%=item.getIid()%></td>
-            <td><input type="text" name="iname" value="<%=item.getIname()%>"></td>
-            <td><input type="text" name="iflag" value="<%=item.getIflag()%>"></td>
-            <td>
-                <input  type="submit" value="确认修改">
-            </td>
-        </tr>
-        <%
-                        }
+                for(Item i : list) {
+                    if(i.getIid().equals(iid)) {
+                        targetItem = i;
+                        break;
                     }
                 }
             }
         %>
-    </table>
-</form>
+
+        <div class="form-panel">
+            <% if (targetItem != null) { %>
+            <form action="${pageContext.request.contextPath}/item/update" method="post">
+                <!-- 隐藏域传递主键 -->
+                <input type="hidden" name="iid" value="<%=targetItem.getIid()%>">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="input-group">
+                        <label>项目ID (不可修改)</label>
+                        <input type="text" value="<%=targetItem.getIid()%>" disabled style="opacity: 0.7; cursor: not-allowed;">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>项目名称 <span style="color: var(--danger);">*</span></label>
+                        <input type="text" name="iname" value="<%=targetItem.getIname()%>" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>项目状态 <span style="color: var(--danger);">*</span></label>
+                        <select name="iflag">
+                            <option value="1" <%=targetItem.getIflag() == 1 ? "selected" : ""%>>启用</option>
+                            <option value="0" <%=targetItem.getIflag() == 0 ? "selected" : ""%>>停用</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-primary" style="background: var(--accent-color); color: #000; padding: 12px 40px;">
+                        💾 保存修改
+                    </button>
+                </div>
+            </form>
+            <% } else { %>
+                <div style="text-align: center; padding: 40px; color: var(--danger);">
+                    未找到相关项目信息，请返回重试。
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

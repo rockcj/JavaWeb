@@ -11,7 +11,7 @@
 <body>
 
     <!-- 引入侧边栏 -->
-    <jsp:include page="/admin/sidebar.jsp"/>
+    <jsp:include page="sidebar.jsp"/>
 
     <div class="main-content">
         <div class="page-header">

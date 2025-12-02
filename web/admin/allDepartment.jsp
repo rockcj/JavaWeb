@@ -12,7 +12,7 @@
 <body>
 
     <!-- 引入侧边栏 -->
-    <jsp:include page="/admin/sidebar.jsp"/>
+    <jsp:include page="sidebar.jsp"/>
 
     <div class="main-content">
         <div class="page-header">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="table-container">
-            <!-- 批量删除按钮 -->
+            <!-- 批量删除按钮放在这里，或者表格上方 -->
             <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: flex-end;">
                 <button class="btn btn-danger btn-sm" onclick="delcheckSingle('${pageContext.request.contextPath}/department/delete','deptId');">
                     🗑️ 批量删除选中
