@@ -47,9 +47,10 @@
                         <td><%=score.getExamType() != null ? score.getExamType() : ""%></td>
                         <td>
                             <% 
-                                String scoreStr = score.getScore() != null ? score.getScore() : "0";
-                                double scoreVal = 0;
-                                try { scoreVal = Double.parseDouble(scoreStr); } catch(Exception e) {}
+                                // 统一把成绩拆成数值与字符串两种形式，便于展示与判断
+                                Double scoreValue = score.getScore();
+                                double scoreVal = scoreValue != null ? scoreValue : 0;
+                                String scoreStr = scoreValue != null ? String.valueOf(scoreValue) : "0";
                                 if(scoreVal < 60) { 
                             %>
                                 <span style="color: var(--danger); font-weight: bold; font-size: 1.1rem;"><%=scoreStr%></span>
