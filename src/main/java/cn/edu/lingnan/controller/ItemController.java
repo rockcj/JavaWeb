@@ -2,7 +2,6 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.Item;
 import cn.edu.lingnan.service.ItemService;
-import cn.edu.lingnan.service.imp.ItemServiceImpMysql;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,22 @@ public class ItemController {
         List<Item> list = itemService.queryAllItem();
         session.setAttribute("allItem", list);
         return "redirect:/admin/allItem.jsp";
+    }
+
+    /**
+     * 显示修改项目页面
+     * 对应原：updateItem.jsp 跳转
+     */
+    @RequestMapping("/showUpdate")
+    public String showUpdateItem(@RequestParam("iid") String iid, HttpSession session) {
+        // 确保 session 中存在项目列表，供 JSP 根据 iid 查找要编辑的对象
+        Object allItem = session.getAttribute("allItem");
+        if (allItem == null) {
+            List<Item> list = itemService.queryAllItem();
+            session.setAttribute("allItem", list);
+        }
+        // 重定向到修改页面，并携带项目ID参数
+        return "redirect:/admin/updateItem.jsp?iid=" + iid;
     }
 
     /**

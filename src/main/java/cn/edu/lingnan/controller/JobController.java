@@ -2,7 +2,6 @@ package cn.edu.lingnan.controller;
 
 import cn.edu.lingnan.pojo.Job;
 import cn.edu.lingnan.service.JobService;
-import cn.edu.lingnan.service.imp.JobServiceImpMysql;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,24 @@ public class JobController {
         List<Job> list = jobService.queryAllJob();
         session.setAttribute("allJob", list);
         return "redirect:/admin/allJob.jsp";
+    }
+
+    /**
+     * 显示修改职位页面
+     * 对应原：updateJob.jsp 跳转
+     */
+    @RequestMapping("/showUpdate")
+    public String showUpdateJob(@RequestParam("sid") String sid,
+                                @RequestParam("iid") String iid,
+                                HttpSession session) {
+        // 确保 session 中存在职位列表，供 JSP 根据 sid + iid 查找要编辑的对象
+        Object allJob = session.getAttribute("allJob");
+        if (allJob == null) {
+            List<Job> list = jobService.queryAllJob();
+            session.setAttribute("allJob", list);
+        }
+        // 重定向到修改页面，并携带联合主键参数
+        return "redirect:/admin/updateJob.jsp?sid=" + sid + "&iid=" + iid;
     }
 
     /**

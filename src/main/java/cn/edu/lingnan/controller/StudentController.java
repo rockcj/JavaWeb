@@ -44,6 +44,22 @@ public class StudentController {
     }
 
     /**
+     * 根据学号查询单个学生并跳转到编辑页面
+     * 对应 JSP 中 /student/queryById 链接，实际作用是为 updateStu.jsp 准备数据
+     */
+    @RequestMapping("/queryById")
+    public String queryById(@RequestParam("sid") String sid, HttpSession session) {
+        // 确保 session 中有学生列表，供 updateStu.jsp 根据 sid 查找目标学生
+        Object allStu = session.getAttribute("allStu");
+        if (allStu == null) {
+            List<Student> list = studentService.queryAllStudentAll();
+            session.setAttribute("allStu", list);
+        }
+        // 重定向到修改页面，并携带学号参数
+        return "redirect:/admin/updateStu.jsp?sid=" + sid;
+    }
+
+    /**
      * 查询单个学生信息
      * 对应原：OneStudent
      */
